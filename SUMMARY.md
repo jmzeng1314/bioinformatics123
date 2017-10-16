@@ -52,7 +52,7 @@
  - [BSA流程](ngs/bsa.md)
  - [snp-calling流程](ngs/snp-calling.md)
  - [mRNA-seq流程](ngs/mRNA-seq.md) 
-* [编程语言](output/README.md)
+* [编程语言](program-language.md)
  - [perl](perl/perl-readme.md)
  - [python](python/python-readme.md) 
  - [R](R/R-readme.md)  
