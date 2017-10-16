@@ -1,4 +1,4 @@
-* [基本安装](howtouse/README.md)
+* [linux基础](linux/linux-1-初识.md)
  - [Node.js安装](howtouse/Nodejsinstall.md)
  - [Gitbook安装](howtouse/gitbookinstall.md)
  - [Gitbook命令行速览](howtouse/gitbookcli.md)
