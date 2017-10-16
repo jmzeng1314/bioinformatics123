@@ -11,7 +11,8 @@ categories:
 - basic_description
 ---
 
-绝对路径与相对路径：
+# 绝对路径与相对路径
+
 绝对路径：路径的写法『一定由根目录/ 写起』，例如： /usr/share/doc 这个目录。
 相对路径：路径的写法『不是由 / 写起』，例如由/usr/share/doc 要到 /usr/share/man 底下时，可以写成： 『cd ../man』这就是相对路径的写法啦！相对路径意指『相对于目前工作目录的路径！
 <!-- more -->
@@ -56,7 +57,7 @@ categories:
     # 这个是相对路径的写法，我们由/var/spool/mail 去到/var/spool/mqueue 就这样写！
 
 
-## 二、Pwd用法
+## 二、pwd用法
 
     [root@www ~]# pwd [-P]
     
@@ -118,7 +119,7 @@ categories:
 那么你的默认属性为何？这要透过底下介绍的umask 才能了解喔！
 
 
-## 四、Rmdir
+## 四、rmdir
 
     [root@www ~]# rmdir [-p] 目录名称
 
@@ -146,7 +147,7 @@ categories:
 
 不过要注意的是，这个 rmdir 仅能『删除空的目录』喔！
 
-## 五、Path
+## 五、PATH
 
 范例：先用root的身份列出搜寻的路径为何？
 
