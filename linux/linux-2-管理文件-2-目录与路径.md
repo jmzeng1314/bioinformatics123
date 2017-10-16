@@ -113,8 +113,9 @@ categories:
     drwxr-xr-x  3 root  root 4096 Jul 18 12:53 test1
     drwx--x--x  2 root  root 4096 Jul 18 12:54 test2
 
-#仔细看上面的权限部分，如果没有加上 -m 来强制设定属性，系统会使用默认属性。
-#那么你的默认属性为何？这要透过底下介绍的umask 才能了解喔！
+仔细看上面的权限部分，如果没有加上 -m 来强制设定属性，系统会使用默认属性。
+
+那么你的默认属性为何？这要透过底下介绍的umask 才能了解喔！
 
 
 ## 四、Rmdir
@@ -141,9 +142,9 @@ categories:
     
     drwx--x--x  2 root  root 4096 Jul 18 12:54 test2
 
-#瞧！利用 -p 这个选项，立刻就可以将 test1/test2/test3/test4 一次删除～
+瞧！利用 -p 这个选项，立刻就可以将 test1/test2/test3/test4 一次删除～
 
-#不过要注意的是，这个 rmdir 仅能『删除空的目录』喔！
+不过要注意的是，这个 rmdir 仅能『删除空的目录』喔！
 
 ## 五、Path
 
@@ -159,7 +160,7 @@ categories:
     [vbird@www ~]# echo $PATH
     /usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/home/vbird/bin
 
-#仔细看，一般用户vbird的PATH中，并不包含任何『sbin』的目录存在喔！
+仔细看，一般用户vbird的PATH中，并不包含任何『sbin』的目录存在喔！
 
 例子：
 
