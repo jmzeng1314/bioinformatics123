@@ -1,6 +1,7 @@
 ## linux系统的熟练
 
-(去可视化概念+练习)了解 命令+参数+文件 的模式
+(去可视化概念+练习)
+了解 命令+参数+文件 的模式
 
     基础知识:cd -, cd ..  , cd -, history, !5 ,  /home/ , /tmp/ , >,&，jobs,nohup 1,2,0
     文件目录操作：ls,cd,pwd,mkdir,rm,mv,cp,touch,head,tail,less,more
@@ -10,7 +11,9 @@
 
 使用腾讯云实验室的linux服务器：https://cloud.tencent.com/developer/labs/lab/10000
 
-- 生信软件安装及使用(官网，例子，conda)
+## 生信软件安装及使用
+
+(官网，例子，conda)
 
     多版本软件发布：NCBI的 blast以及sratoolkit 等等
     二进制软件(预编译版本)：下载即可使用
