@@ -48,9 +48,11 @@ tags:
     alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot '
     /usr/bin/which
 
-#竟然会有两个 which ，其中一个是 alias 这玩意儿呢！那是啥？
-#那就是所谓的『命令别名』，意思是输入which 会等于后面接的那串指令啦！
-#更多的数据我们会在 bash 章节中再来谈的！
+竟然会有两个 which ，其中一个是 alias 这玩意儿呢！那是啥？
+
+那就是所谓的『命令别名』，意思是输入which 会等于后面接的那串指令啦！
+
+更多的数据我们会在 bash 章节中再来谈的！
 
 范例三：请找出 cd 这个指令的完整文件
     
@@ -85,8 +87,8 @@ tags:
     ifconfig: /sbin/ifconfig /usr/share/man/man8/ifconfig.8.gz
     [vbird@www ~]$ exit              <==回归身份成为 root 去！
     
-#注意看，明明 which 一般使用者找不到的ifconfig 却可以让 whereis 找到！
-#这是因为系统真的有 ifconfig 这个『文件』，但是使用者的PATH 并没有加入 /sbin
+注意看，明明 which 一般使用者找不到的ifconfig 却可以让 whereis 找到！
+这是因为系统真的有 ifconfig 这个『文件』，但是使用者的PATH 并没有加入 /sbin
 所以，未来你找不到某些指令时，先用文件搜寻指令找找看再说！
 
 范例二：只找出跟 passwd 有关的『说明文件』档名(man page)
