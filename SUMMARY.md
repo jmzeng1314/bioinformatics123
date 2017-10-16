@@ -29,7 +29,7 @@
  - [文本编辑-2-git](linux/linux-4-文本编辑-2-git.md)
  - [文本编辑-3-tmux](linux/linux-4-文本编辑-3-tmux.md)
  - [用户管理](linux/linux-5-用户管理.md)
- - [2-硬盘管理-查看服务器配置](linux/linux-6-2-硬盘管理-查看服务器配置.md)
+ - [硬盘管理-查看服务器配置](linux/linux-6-2-硬盘管理-查看服务器配置.md)
  - [硬盘管理](linux/linux-6-硬盘管理.md)
  - [网络管理](linux/linux-7-网络管理.md)
  - [软件管理](linux/linux-8-软件管理.md)
