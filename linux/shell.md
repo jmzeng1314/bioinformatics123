@@ -524,4 +524,4 @@ wsx@wsx-ubuntu:~/script_learn`$ echo $`?
 - 修改脚本优先级
 - 脚本执行自动化
 
-本文作者：**DivinerSX**
+本章节作者：：**DivinerSX**
