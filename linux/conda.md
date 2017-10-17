@@ -23,7 +23,8 @@ ncbi-blast-2.6.0+.dmg	123 MB
 
 ### 二进制软件(预编译版本) {#soft-binary}
 
-作为新手，建议大家直接根据自己的系统下载预编译版本软件，并且直接解压就可以使用啦。
+作为新手，一般建议大家直接**根据自己电脑操作的系统**下载预编译版本软件，并且直接解压就可以使用啦。
+
 例子如下：
 ```
 cd ~/biosoft
@@ -61,6 +62,8 @@ make install
 ~/biosoft/myBin/bin/samtools --help
 ~/biosoft/myBin/bin/plot-bamstats --help
 ```
+
+一个新的ubuntu系统一般会缺失安装 bwa/samtools等软件的库，而且安装一些R语言包也会面临库文件缺失的情况。
 
 ### 系统自带软件中心 {#soft-repositories}
 
