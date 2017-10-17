@@ -34,7 +34,7 @@
 
 ## 生物信息入门基本知识
 
-数据产生
+### 数据产生
 
 - 产生方式
   - arrary
@@ -59,7 +59,7 @@
   - PacBio RS
   - Nanopore MinlON
 
-数据存储类型
+### 数据存储类型
 
 - 学习网址 https://genome.ucsc.edu/FAQ/FAQformat.html
 - FASTA
@@ -71,7 +71,7 @@
 - VCF
 - 其他
 
-数据库资源
+### 数据库资源
 
 - 拟南芥
   - TAIR https://www.arabidopsis.org/
@@ -101,7 +101,7 @@
   - https://www.atum.bio/resources/bioinformatics-tools
   - https://wiki2.org/en/List_of_RNA-Seq_bioinformatics_tools
 
-生物信息统计入门基础
+## 生物信息统计入门基础
 
 - 基本概念
 - 统计方法
@@ -109,7 +109,7 @@
 - 结果可视化
 - 相关软件算法实现
 
-编程基础
+## 编程基础
 
 - Linux shell
 - R http://www.sthda.com/english/
@@ -119,7 +119,7 @@
   - 生信编程题目练习 http://rosalind.info/problems/locations/
   - 慕课网 http://www.imooc.com/
 
-生物学基础知识
+## 生物学基础知识
 
 - 基因组相关
 - 转录组相关
@@ -130,7 +130,6 @@
 
 作者：思考问题的熊
 
-博客原文：http://kaopubear.top/2017-08-22/2017-08-22-BioinformaticsSkill/
 
 
 
