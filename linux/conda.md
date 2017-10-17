@@ -250,4 +250,4 @@ conda remove sra-tools -y
 
 我曾经在论坛上面发过一千个生物信息学软件安装，http://www.biotrainee.com/thread-856-1-1.html  里面就涵盖了软件的方方面面。
 
-本文作者：曾健明+徐洲更
+本章节作者：曾健明+徐洲更
