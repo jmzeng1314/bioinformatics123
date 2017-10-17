@@ -502,3 +502,5 @@ wsx@wsx-ubuntu:~/script_learn`$ echo $`?
 - 作业控制
 - 修改脚本优先级
 - 脚本执行自动化
+
+本文作者：**DivinerSX**
