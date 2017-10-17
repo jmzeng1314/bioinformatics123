@@ -30,20 +30,32 @@ samtools mpileup -ugf ~/tmp/chrX_Y/hg19/chrX.fa  read.filter.rmdup.bam  |bcftool
 ```
 bwa软件就没有添加到环境变量，所以需要用全路径，指明使用电脑里面什么地方的bwa软件来做数据分析。而为什么没有添加到环境变量，是因为我的安装方式的问题：
 ```
-
+## Download and install BWA
+cd ~/biosoft
+mkdir bwa &&  cd bwa
+#http://sourceforge.net/projects/bio-bwa/files/
+wget https://sourceforge.net/projects/bio-bwa/files/bwa-0.7.15.tar.bz2 
+tar xvfj bwa-0.7.15.tar.bz2 
+# x extracts, v is verbose (details of what it is doing), f skips prompting for each individual file, and j tells it to unzip .bz2 files
+cd bwa-0.7.15
+make
+#export PATH=$PATH:/path/to/bwa-0.7.15 
+# Add bwa to your PATH by editing ~/.bashrc file (or .bash_profile or .profile file)
+# /path/to/ is an placeholder. Replace with real path to BWA on your machine
+#source ~/.bashrc
 ```
 
 而把安装好的软件添加到环境变量的方法有：
    
-#### 第一种方法{-}
+#### 第一种方法
 
 ```
 export PATH=/usr/local/webserver/mysql/bin:$PATH  ## 先添加
 echo $PATH        ### 再查看
 ```
-上述方法的PATH 在终端关闭后就会消失。所以还是建议通过编辑/etc/profile来改PATH，也可以修改家目录下的.bashrc(即：~/.bashrc)。
+上述方法的PATH 在终端关闭后就会消失。所以还是建议通过编辑/etc/profile来改PATH，也可以修改家目录下的.bashrc(即：~/.bashrc)。只不过通常情况下普通用户都是修改自己目录下的`.bashrc`文件。
 
-#### 第二种方法 {-} 
+#### 第二种方法
 
 ```
 vim /etc/profile
