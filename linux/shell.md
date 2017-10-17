@@ -11,6 +11,21 @@
 - 数学运算
 - 退出脚本
 
+## 一个脚本例子
+
+```
+bed=exon_probe.hg38.gene.bed
+for bam in  /home/project/*.bam
+do
+file=$(basename $bam )
+sample=${file%%.*}
+echo $sample
+export total_reads=$(samtools idxstats  $bam|awk -F '\t' '{s+=$3}END{print s}')
+echo The number of reads is $total_reads
+bedtools multicov -bams  $bam -bed $bed |perl -alne '{$len=$F[2]-$F[1];if($len <1 ){print "$.\t$F[4]\t0" }else{$rpkm=(1000000000*$F[4]/($len* $ENV{total_reads}));print "$.\t$F[4]\t$rpkm"}}' >$sample.rpkm.txt
+done
+```
+
 ## 使用多个命令
 
 如果多个命令一起使用，可以放在一行并用分号分隔。
