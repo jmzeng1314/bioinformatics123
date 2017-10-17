@@ -1,5 +1,11 @@
 [序言](README.md)
-
+* [linux基础](linux/linux-readme.md)
+ - [基础命令](linux/basic-commands.md)
+ - [文本处理](linux/text-commands.md)
+ - [环境变量](linux/env.md)
+ - [初识](linux/linux-1-初识.md)
+ - [管理软件](linux/conda.md)
+ - [shell脚本](linux/shell.md)
 * [ngs](ngs/ngs-readme.md)
  - [BSA流程](ngs/bsa.md)
  - [snp-calling流程](ngs/snp-calling.md)
