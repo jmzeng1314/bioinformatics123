@@ -1,3 +1,4 @@
+[序言](README.md)
 * [linux基础](linux/linux-readme.md)
  - [初识](linux/linux-1-初识.md)
  - [管理文件-1-dir-structure](linux/linux-2-管理文件-1-dir-structure.md)
