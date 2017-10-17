@@ -128,7 +128,7 @@
   - coursera https://www.coursera.org/
   - edX https://courses.edx.org/
 
-作者：思考问题的熊
+本章节作者：思考问题的熊
 
 
 
