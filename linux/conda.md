@@ -63,25 +63,37 @@ make install
 ~/biosoft/myBin/bin/plot-bamstats --help
 ```
 
-一个新的ubuntu系统一般会缺失安装 bwa/samtools等软件的库，而且安装一些R语言包也会面临库文件缺失的情况。
 
 ### 系统自带软件中心 {#soft-repositories}
 
 大家都知道，操作系统只是一个生态环境而已，没有上面丰富多彩的软件，它的用处很有限，就好像购买之初的手机，不下载QQ,微信，音频视频软件，根本没办法玩。同样的，做生物信息学数据分析也是如此。
+
 唯一比较麻烦的事情是我们想安装的软件不是QQ、微信这种高频软件，而是科研相关的生物信息学数据分析软，大部分软件都不在系统自带软件中心。不过还是需要了解一下。
+
 首先，不同的系统，安装方式不一样，windows基本没有自带软件中心，MAC有appstore，但是生物信息学相关的很少，linux根据发行版不一样，安装命令不一样，ubuntu的用apt-get，centos的用yum，其余的自己去搜索了解即可。
 
+一个新的ubuntu系统一般会缺失安装 bwa/samtools等软件的库，而且安装一些R语言包也会面临库文件缺失的情况。
 
-### conda软件管理 {#soft-conda}
+```
+sudo apt-get -y install libcurl4-gnutls-dev
+sudo apt-get -y install libxml2-dev
+sudo apt-get -y install libssl-dev
+sudo apt-get -y install  libmariadb-client-lgpl-dev
+```
+
+
+## conda软件管理 {#soft-conda}
 
 对于生信初学者而言，最困难的事情某过于安装各种生信软件，如果一切所有软件都能像`sudo apt-get intall` 或者是`sudo yum install`那样多好。本文就介绍了我目前认为最强的非root软件管理器-**conda**.
 
-####  什么是conda { - }
+###  什么是conda 
+
 想要了解什么是conda，需要先要了解什么是[Anaconda](https://anaconda.org/)。
 
 Anaconda是Python的科学发行版，它将各种科学计算工具整合到一个安装包之中，从而使得Python变得无比的强大，就像Linux本身也只是内核，通过整合不同的软件之后才会变得如何的实用。
 
-```{r anaconda,fig.cap="Anaconda Logo", fig.align='center', echo=FALSE}
+```
+{r anaconda,fig.cap="Anaconda Logo", fig.align='center', echo=FALSE}
 knitr::include_graphics("image/C5/Anaconda.jpg")
 ```
 
@@ -89,7 +101,7 @@ Anaconda为了避免Python原生`pip`安装软件会出现的问题，比如说W
 
 因此，conda最开始是Anaconda提供的Python包安装管理工具哦。
 
-#### 为什么用conda  { - }
+### 为什么用conda 
 
 **conda**最开始只是Anaconda用于管理Python包的工具，但由于它为了避免Python包安装时出现的依赖库不全的问题，相当于又安装了一个虚拟系统，于是乎它能够管理的软件越来越多
 
@@ -109,7 +121,7 @@ Anaconda为了避免Python原生`pip`安装软件会出现的问题，比如说W
 PS: 你当然可以选择自己编译，然后解决不断出现的依赖包缺失问题。
 
 
-#### 如何安装conda  { - }
+### 如何安装conda
 
 由于生信分析基本都在Linux系统下完成，所以下面仅以Linux为例（不区分Ubuntu和CentOS,仅区分32为和64位）。
 
@@ -139,7 +151,7 @@ source ~/.bashrc
 
 到此为止，如果没有出现报错就完成了conda安装。
 
-#### conda的基本操作  { - }
+#### conda的基本操作
 
 安装conda之后，我们需要学习一点最基本的conda使用方法，当然哪里不懂可以到[https://docs.anaconda.com/docs_oss/conda/get-started](https://docs.anaconda.com/docs_oss/conda/get-started) 找到解决方法。不过我相信，下面的已经够用了。
 
@@ -163,7 +175,8 @@ conda info --envs
 
 目前，我就只有一个默认环境，也就是root。
 
-```{r condaInfo, fig.cap="查看已有环境", fig.align='center', echo=FALSE}
+```
+{r condaInfo, fig.cap="查看已有环境", fig.align='center', echo=FALSE}
 knitr::include_graphics("image/C5/conda_root.jpg")
 ```
 
@@ -173,11 +186,13 @@ knitr::include_graphics("image/C5/conda_root.jpg")
 conda create -n biostar python=2 bwa
 ```
 
-```{r condaCreate, fig.cap="新建虚拟环境", fig.align='center', echo=FALSE}
+```
+{r condaCreate, fig.cap="新建虚拟环境", fig.align='center', echo=FALSE}
 knitr::include_graphics("image/C5/conda_bwa.jpeg")
 ```
 
-```{r finishEnv,fig.cap="安装完成说明", fig.align='center', echo=FALSE}
+```
+{r finishEnv,fig.cap="安装完成说明", fig.align='center', echo=FALSE}
 knitr::include_graphics("image/C5/conda_install.jpg")
 ```
 
@@ -204,7 +219,8 @@ rm -rf ~/miniconda3/envs/biostar/
 conda search sratools
 ```
 
-```{r condaSearch,fig.cap="使用search检索软件包", fig.align='center', echo=FALSE}
+```
+{r condaSearch,fig.cap="使用search检索软件包", fig.align='center', echo=FALSE}
 knitr::include_graphics("image/C5/conda_search")
 ```
 
@@ -232,4 +248,4 @@ conda remove sra-tools -y
 * matlab软件，你要是在windows界面用到还好，想去linux用，也折腾好几个星期。
 * ruby其它我没有用过啦。
 
-我曾经在论坛上面发过一千个生物信息学软件安装，http://www.biotrainee.com/thread-856-1-1.html 
+我曾经在论坛上面发过一千个生物信息学软件安装，http://www.biotrainee.com/thread-856-1-1.html  里面就涵盖了软件的方方面面。
