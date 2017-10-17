@@ -286,7 +286,9 @@ marker
 
 ## 管道
 
-有时候需要将一个命令的输出作为另一个命令的输入。通过`|`符号分隔命令即可实现管道。
+很多生信命令行工具需要提供多个输入和输出参数，这用在管道命令里可能会导致非常低效的情形（管道只接受一个标准输入和输出）。幸好，我们可以使用命令管道来解决此类问题。
+
+命名管道，也称为FIFO。它是一个特殊的排序文件，命名管道有点像文件，它可以永久保留在你的文件系统上（估计本质就是文件吧~）。
 
 比如我想查看某个文件（test1）的前两行并进行排序，操作如下：
 
@@ -304,6 +306,25 @@ wsx@wsx-ubuntu:~/script_learn$ cat test1 | head -2 | sort
 ```
 
 管道的强大之处在于可以根据自己的需求灵活地组合和使用各种linux命令工具。这里只是一个简单的例子，要熟练掌握少不了平时多多研究和练习。
+
+## 进程替换
+
+有些命令需要接受**多个管道的输入**作为自己的输出，这个时候普通的管道已经无法完成任务了。需要用到进程替换，来避免多次创建中间文件，代码如下：
+
+```
+start=$(date +%s.%N)
+echo VarScan `date`
+normal_pileup="samtools mpileup -q 1 -f `$reference $`normal_bam";
+tumor_pileup="samtools mpileup -q 1 -f `$reference $`tumor_bam";
+# Next, issue a system call that pipes input from these commands into VarScan :
+java -Djava.io.tmpdir=$TMPDIR   -Xmx40g  -jar ~/biosoft/VarScan/VarScan.v2.3.9.jar \
+somatic <(`$normal_pileup) <($`tumor_pileup) ${sample}_varscan
+java -jar ~/biosoft/VarScan/VarScan.v2.3.9.jar processSomatic ${sample}_varscan.snp
+echo VarScan `date`
+dur=`$(echo "$`(date +%s.%N) - $start" | bc)
+printf "Execution time for VarScan : %.6f seconds" $dur
+echo
+```
 
 ## 执行数学运算
 
