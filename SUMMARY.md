@@ -10,7 +10,7 @@
  - [snp-calling流程](ngs/snp-calling.md)
  - [mRNA-seq流程](ngs/mRNA-seq.md) 
 * [编程语言](program-language.md)
- - [perl](perl/perl-readme.md)
+ - [perl](perl/perl-tutorial.md)
  - [python](python/python-readme.md) 
  - [R](R/R-readme.md)  
 * [生信基石](appendix/readme.md)
