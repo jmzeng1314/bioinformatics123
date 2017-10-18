@@ -184,7 +184,7 @@ print "$_\t$A_count{$_}\t$T_count{$_}\t$C_count{$_}\t$G_count{$_}\t$N_count{$_}\
 
 对GTF注释文件进行探究，统计每条染色体基因数、转录本数、内含子数、外显子数。
 
-高级作业：下载[human/rat/mouse/dog/cat/chicken等物种的gtf注释文件](http://asia.ensembl.org/info/data/ftp/index.html) 编写函数实现对多个GTF文件进行批量统计染色体基因、转录本的分布及转录本外显子个数；
+高级作业：去[ENSEMBL数据库](http://asia.ensembl.org/info/data/ftp/index.html)  下载human/rat/mouse/dog/cat/chicken等物种的gtf注释文件编写函数实现对多个GTF文件进行批量统计染色体基因、转录本的分布及转录本外显子个数；
 
 继续探索回答以下问题：
 
