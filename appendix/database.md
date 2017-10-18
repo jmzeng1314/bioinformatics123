@@ -981,8 +981,10 @@ https://genome.ucsc.edu/goldenpath/help/hgTracksHelp.html#What
 
 目前所有数据均全部公开(http://genome.ucsc.edu/ENCODE/ )，并以30篇论文在Nature、Science、Cell、JBC、Genome Biol、Genome Research同时发表(http://www.nature.com/encode )。成为一个互动的百科全书，并可以免费公开获得和利用这些全部的资料和数据。这是迄今最详细的人类基因组分析数据，是对人类生命科学的又一重大贡献。
 
-```{r img1, fig.cap='caption', out.width='80%', fig.align='center', echo=FALSE}
+```
+{r img1, fig.cap='caption', out.width='80%', fig.align='center', echo=FALSE}
     knitr::include_graphics("image/C3/encode.png")
+    
 ```
 
 更多信息见：

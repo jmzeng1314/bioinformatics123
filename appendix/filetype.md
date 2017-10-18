@@ -453,8 +453,10 @@ http://www.bio-info-trainee.com/1339.html
 
 #### 定义和示例
 
-```{r vcf,fig.cap="vcf文件可以记录的基因组变异类型", fig.align='center', echo=FALSE}
+```
+{r vcf,fig.cap="vcf文件可以记录的基因组变异类型", fig.align='center', echo=FALSE}
 knitr::include_graphics("image/C2/vcf_variation_class.jpg")
+
 ```
 
 
@@ -587,8 +589,9 @@ GQ：基因型的质量值(Genotype Quality)。Phred格式(Phred_scaled)的质�
 
 PL：指定的三种基因型的质量值(provieds the likelihoods of the given genotypes)。这三种指定的基因型为(0/0,0/1,1/1)，这三种基因型的概率总和为1。和之前不一致，该值越大，表明为该种基因型的可能性越小。 Phred值 = -10 * log (p) p为基因型存在的概率。
 
-```{r vcf_detail,fig.cap="VCF文件的官方描述", fig.align='center', echo=FALSE}
-knitr::include_graphics("image/C2/vcf_file_format.jpg")
+```
+{r vcf_detail,fig.cap="VCF文件的官方描述", fig.align='center', echo=FALSE}
+knitr::include_graphics("/C2/vcf_file_format.jpg")
 ```
 
 上图可以帮助很好的理解vcf格式。
