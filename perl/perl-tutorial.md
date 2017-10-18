@@ -796,6 +796,8 @@ copy("/home/shenmy/Ten_lake_new/3_Contig/LGH/METABAT-SUMMARY_PHYLUM_refine_1/bin
 #### 3.5. 目录（自学）
 要求读懂`fastqc_table.pl`代码中操作目录的代码并进行练习：
 对fastqc质控得到的*_R1_fastqc.zip和*_R2_fastqc.zip文件批量解压`for i in *.zip;  do unzip $i; done `后，`perl fastqc_table.pl`统计计算“总reads数、GC含量、Q20、Q30”。
+
+
 | file_name                                | total_reads | GC   | Q20               | Q30               |
 | :--------------------------------------- | :---------- | :--- | :---------------- | :---------------- |
 | Homo_sapiens_AKAP95_KD_miR_12_293_cell_1_fastqc | 25914821    | 50   | 0.999810031487387 | 0.972201583024633 |
@@ -804,6 +806,7 @@ copy("/home/shenmy/Ten_lake_new/3_Contig/LGH/METABAT-SUMMARY_PHYLUM_refine_1/bin
 | Homo_sapiens_AKAP95_KD_miR_8_293_cell_2_fastqc | 29720636    | 50   | 0.978714654693123 | 0.93782410982053  |
 | Homo_sapiens_Control_293_cell_1_fastqc   | 28856780    | 50   | 0.989872946867992 | 0.966726176148248 |
 | Homo_sapiens_Control_293_cell_2_fastqc   | 28856780    | 50   | 0.977797280223227 | 0.940547004897982 |
+
 
 以下代码由Jimmy提供：
 ```
