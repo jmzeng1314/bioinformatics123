@@ -13,7 +13,7 @@
  - [perl](perl/perl-readme.md)
  - [python](python/python-readme.md) 
  - [R](R/R-readme.md)  
-* [阅读理解](appendix/readme.md)
+* [生信基石](appendix/readme.md)
  - [文件格式](appendix/filetype.md)
  - [数据库资源](appendix/database.md) 
  - [编程练习](appendix/exercise.md)  
