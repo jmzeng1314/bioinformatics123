@@ -9,6 +9,7 @@
  - [BSA流程](ngs/bsa.md)
  - [snp-calling流程](ngs/snp-calling.md)
  - [mRNA-seq流程](ngs/mRNA-seq.md) 
+ - [BS-seq流程](ngs/BS-seq.md) 
 * [编程语言](program-language.md)
  - [perl](perl/perl-tutorial.md)
  - [python](python/python-readme.md) 
