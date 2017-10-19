@@ -1,5 +1,5 @@
 [序言](README.md)
-* [linux基础](linux/linux-readme.md)
+* [linux](linux/linux-readme.md)
  - [基础命令](linux/basic-commands.md)
  - [文本处理](linux/text-commands.md)
  - [环境变量](linux/env.md)
