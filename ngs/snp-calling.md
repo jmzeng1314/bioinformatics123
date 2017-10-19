@@ -1,5 +1,13 @@
 # 一个模拟项目
 
+- 首先下载X,Y染色体的fasta序列，在UCSC上面下载即可。 
+- 然后把X染色体构建bwa的索引
+- 接着模拟一个Y染色体的测序数据，模拟的程序很简单,模拟Y染色体的测序片段（PE100，insert400） 
+- 然后把模拟测序数据比对到X染色体的参考，统计一下比对结果。
+- 最后对比对成功的bam文件进行找变异位点。
+
+代码如下：
+
 ```
 ## 源代码方式安装 bwa-0.7.15 
 ## conda安装samtools
@@ -20,6 +28,18 @@ samtools mpileup -ugf ~/tmp/chrX_Y/hg19/chrX.fa read.filter.rmdup.bam |bcftools 
 ## 把fa/bam/vcf 载入到 IGV 进行可视化，截图其中一个变异位点
 ## 参考 http://www.biotrainee.com/thread-696-1-1.html
 ```
+
+# 变异寻找的流程
+
+完整的流程可以很复杂：
+
+![完整的流程](image/Workflow-for-pharmacogenomics-using-WES-or-WGS-After-mapping-to-the-reference-sequence.png)
+
+仅仅是上游的变异寻找流程就可以很复杂：
+
+![上游流程详细化](image/Variant-analysis-workflow-specifications.png)
+
+来自于2017年发表于BMC Bioinformatics的文章 [MC-GenomeKey: a multicloud system for the detection and annotation of genomic variants](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-1454-2)
 
 # 一个实战项目
 
