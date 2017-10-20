@@ -6,7 +6,7 @@
  - [管理软件](linux/conda.md)
  - [shell脚本](linux/shell.md)
 * [ngs](ngs/ngs-readme.md)
- - [BSA流程](ngs/bsa.md)
+ - [BSA流程](ngs/BSA-Seq.md)
  - [snp-calling流程](ngs/snp-calling.md)
  - [mRNA-seq流程](ngs/mRNA-seq.md) 
  - [BS-seq流程](ngs/BS-seq.md) 
