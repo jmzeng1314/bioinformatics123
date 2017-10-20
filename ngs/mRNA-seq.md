@@ -200,7 +200,19 @@ samtools sort -O bam -@ 5  -o ${sample}_star.bam ${sample}_starAligned.out.sam
 
 首先提取样本的分组信息
 
-```
+```shell
 tail -n +2 E-MTAB-5130.sdrf.txt | cut -f 32,36 |sort -u
 ```
 
+然后下载差异分析脚本
+
+```Shell
+wget  https://github.com/jmzeng1314/my-R/blob/master/DEG_scripts/run_DEG.R
+wget  https://github.com/jmzeng1314/my-R/blob/master/DEG_scripts/tair/exprSet.txt
+wget  https://github.com/jmzeng1314/my-R/blob/master/DEG_scripts/tair/group_info.txt
+Rscript ../run_DEG.R -e exprSet.txt -g group_info.txt -c 'Day1-Day0' -s counts  -m DESeq2
+```
+
+
+
+### 本章节作者：曾健明
