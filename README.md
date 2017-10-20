@@ -128,6 +128,11 @@
   - coursera https://www.coursera.org/
   - edX https://courses.edx.org/
 
+## 思维导图
+
+![生信技能树大纲](bioinformatics.png)
+
+
 本章节作者：思考问题的熊
 
 
