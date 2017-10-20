@@ -3,7 +3,7 @@
 遗传学研究中最重要的一部分就是将表型(phenotype)和基因组(genotype)相关联，也就是基因定位。在基因组时代，找到一个基因组常用的方位为：GWA, bin-map, BSA^[QTL Mapping Using High-Throughput Sequencing], 涉及到基本原理在高中课本上都有：
 
 1. 基因在染色体上线性排布
-1. 染色体会发生重组和交换
+2. 染色体会发生重组和交换
 
 其中BSA在三者中比较简单，基本原理用1991年的文献^[Identification of markers linked to disease-resistance genes by bulked segregant analysis: a rapid method to detect markers in specific genomic regions by using segregating populations.]的胶图就能解释清楚。但是你需要提供恰当的群体送样测序，不然会给造成后续的数据分析无法进行，所谓garbage in, garbage out.
 ![](http://oex750gzt.bkt.clouddn.com/17-10-20/40048808.jpg)
@@ -13,20 +13,20 @@
 BSA-Seq 在正向遗传学定位时也称之为Mapping-by-Sequencing, 分为如下5步：
 
 1. 物理或化学(EMS)诱变
-1. 群体构建方案选择：outcross 或 backcross(植物群体优先考虑)
-1. 挑选目标表型的群体
-1. 上机测序
-1. 数据分析
+2. 群体构建方案选择：outcross 或 backcross(植物群体优先考虑)
+3. 挑选目标表型的群体
+4. 上机测序
+5. 数据分析
 
 ![](http://oex750gzt.bkt.clouddn.com/17-10-20/53782275.jpg)
 
 我们主要关心的是数据分析这一步，可以继续分为：
 
 1. 数据清洗, 过滤掉不合格的reads
-1. 序列比对, 常用软件为BWA, Bowtie2
-1. SNP Calling, 常用文件为SAMTool+BCFTools, GATK, Freebayes
-1. 通过作图确定可能区域
-1. 变异位点注释
+2. 序列比对, 常用软件为BWA, Bowtie2
+3. SNP Calling, 常用文件为SAMTool+BCFTools, GATK, Freebayes
+4. 通过作图确定可能区域
+5. 变异位点注释
 
 **注**: 尽管我们主要负责数据分析，但是实验设计这一步就需要介入，避免产生垃圾数据。
 
@@ -89,7 +89,7 @@ samtools index data/alignment/BC_fg_sort.bam
 SNP Calling的基本原理是利用贝叶斯定律:
 
 > 如果比对后的短序列和参考基因组存在差异，也就是一个候选的variant, 它既有可能是测序不准造成，也可能是比对软件的精确性不够导致，甚至可能是抽样误差。为了确定他是不是一个真实的变异位点，可以通过先验概率进行判断。比如说一共由30条read比对到这个位点上，其中有20条read都和参考基因组不同，那么很大概率上他就是一个真实变异点。
-![](http://oex750gzt.bkt.clouddn.com/17-10-20/70857485.jpg)
+> ![](http://oex750gzt.bkt.clouddn.com/17-10-20/70857485.jpg)
 
 目前在人类中，最好用的Varint Calling软件是GATK，植物中也可以用，但是samtools mpipeup + bcftools 基本满足需求，也是Li用C开发的程序，运行效率高。
 
@@ -211,3 +211,8 @@ awk '$6 > 0.8 {print $p}' | cut -f 10 | xargs -i grep {} ../TAIR10_functional_de
 
 - Plant Functional Genomics
 - Using next-generation sequencing to isolate mutant genes from forward genetic screens
+
+
+
+### 本章节作者：徐洲更
+
