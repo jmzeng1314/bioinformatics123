@@ -5,13 +5,31 @@
 
 ## 服务器使用
 
-基本配置是8G内存+0.5T硬盘，系统可以是ubuntu等linux，或者虚拟机，或者 MAC，并且一定要安装好 xshell,winscp,everything,notepad++,git或者同等功能的软件。
+基本配置是8G内存+0.5T硬盘(配置不达标问题也不大)，系统可以是ubuntu,centos等**linux系统**，或者 **MAC**，或者改进版的Windows系统。
+
+#### linux系统
+
+基本上不太可能有个人用户用这个系统，略过
+
+#### MAC系统
+
+如果是苹果电脑，那么非常适合做生物信息学数据分析。需要安装**brew,textwranger,filezilla**
+
+#### windows电脑
+
+大多数人都是这个操作系统，如果是Windows10系统，那么开始其内置的ubuntu即可。如果是其它Windows版本，就需要安装虚拟机，在虚拟机里面安装ubuntu,centos等**linux系统**。
+
+对于Windows用户还需要下载安装好 **xshell,winscp,everything,notepad++,git**或者同等功能的软件。
+
+#### 三系统共用软件
+
+无论是哪种电脑操作系统，都需要安装anaconda,pycharm,R/Rstudio,typora 
 
 
 
-软件的简介和部分网址如下：
+上面提到的软件的简介和部分网址如下：
 
-- anconda 为了学习Python，conda自带科学计算的python包(安装Python3.6.x版本的)；
+- anaconda 为了学习Python，conda自带科学计算的python包(安装Python3.6.x版本的)；
 - pycharm community(三平台通用的 ),Python学习的IDE(社区版）；
 - git 虚拟shell界面，为了在window下使用一些shell命令，自带Perl;
 - R/Rstudio 为了学习R语言来进行数据处理和统计绘图(安装最新版本)；
