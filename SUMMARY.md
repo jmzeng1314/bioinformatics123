@@ -12,7 +12,7 @@
  - [BS-seq流程](ngs/BS-seq.md) 
 * [编程语言](program-language.md)
  - [perl](perl/perl-tutorial.md)
- - [python](python/python-readme.md) 
+ - [python](python/python-tutorial.md) 
  - [R](R/R-readme.md)  
 * [生信基石](appendix/readme.md)
  - [文件格式](appendix/filetype.md)
