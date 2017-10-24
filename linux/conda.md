@@ -92,10 +92,7 @@ sudo apt-get -y install  libmariadb-client-lgpl-dev
 
 Anaconda是Python的科学发行版，它将各种科学计算工具整合到一个安装包之中，从而使得Python变得无比的强大，就像Linux本身也只是内核，通过整合不同的软件之后才会变得如何的实用。
 
-```
-{r anaconda,fig.cap="Anaconda Logo", fig.align='center', echo=FALSE}
-knitr::include_graphics("image/C5/Anaconda.jpg")
-```
+![](image/Anaconda.jpg)
 
 Anaconda为了避免Python原生`pip`安装软件会出现的问题，比如说Windows下安装科学计算必备的`numpy`和`pandas`时就非常的麻烦，于是它就自己编译了好一些安装包，仅仅使用`conda install`就能下载编译好的二进制包。
 
@@ -175,10 +172,7 @@ conda info --envs
 
 目前，我就只有一个默认环境，也就是root。
 
-```
-{r condaInfo, fig.cap="查看已有环境", fig.align='center', echo=FALSE}
-knitr::include_graphics("image/C5/conda_root.jpg")
-```
+![](image/conda_root.jpg)
 
 我们之前安装的时候是Python3，这次我们建立一个Python2环境，并且安装比对软件bwa
 
@@ -186,15 +180,11 @@ knitr::include_graphics("image/C5/conda_root.jpg")
 conda create -n biostar python=2 bwa
 ```
 
-```
-{r condaCreate, fig.cap="新建虚拟环境", fig.align='center', echo=FALSE}
-knitr::include_graphics("image/C5/conda_bwa.jpeg")
-```
+![](image/conda_bwa.jpeg)
 
-```
-{r finishEnv,fig.cap="安装完成说明", fig.align='center', echo=FALSE}
-knitr::include_graphics("image/C5/conda_install.jpg")
-```
+
+
+![](image/conda_install.jpg)
 
 安装完成之后，还告诉了我们如何**启动环境**
 
@@ -219,10 +209,7 @@ rm -rf ~/miniconda3/envs/biostar/
 conda search sratools
 ```
 
-```
-{r condaSearch,fig.cap="使用search检索软件包", fig.align='center', echo=FALSE}
-knitr::include_graphics("image/C5/conda_search")
-```
+![](image/conda_search)
 
 下一步，使用`conda install`安装。
 
@@ -238,7 +225,7 @@ conda remove sra-tools -y
 其中`-y`表示确认，而`sra-tools=版本号`则是下载对应的版本工具。有些时候为了重复别人的结果，我们需要安装对方所用的软件版本。
 
 
-### 语言类软件（模块、包） {#soft-packages}
+### 语言类软件（模块、包）
 
 比如perl,R,python,java,matlab,ruby,C等等
 
@@ -249,5 +236,7 @@ conda remove sra-tools -y
 * ruby其它我没有用过啦。
 
 我曾经在论坛上面发过一千个生物信息学软件安装，http://www.biotrainee.com/thread-856-1-1.html  里面就涵盖了软件的方方面面。
+
+
 
 本章节作者：曾健明+徐洲更

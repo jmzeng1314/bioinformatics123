@@ -55,20 +55,20 @@ GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
 ```
 
 这个序列标识以及相关描述信息以冒号分割，每一个字段信息如下：
-  
-字段| 解释
----|---
-EAS139 | 	the unique instrument name
-136| 	the run id
-FC706VJ | 	the flowcell id
-2| flowcell lane
-2104 |	tile number within the flowcell lane
-15343 | ‘x’-coordinate of the cluster within the tile
-197393 |	‘y’-coordinate of the cluster within the tile
-1| the member of a pair, 1 or 2 (paired-end or mate-pair reads only)
-Y | 	Y if the read fails filter (read is bad), N otherwise
-18 | 	0 when none of the control bits are on, otherwise it is an even number
-ATCACG |index sequence
+
+| 字段      | 解释                                       |
+| ------- | ---------------------------------------- |
+| EAS139  | the unique instrument name               |
+| 136     | the run id                               |
+| FC706VJ | the flowcell id                          |
+| 2       | flowcell lane                            |
+| 2104    | tile number within the flowcell lane     |
+| 15343   | ‘x’-coordinate of the cluster within the tile |
+| 197393  | ‘y’-coordinate of the cluster within the tile |
+| 1       | the member of a pair, 1 or 2 (paired-end or mate-pair reads only) |
+| Y       | Y if the read fails filter (read is bad), N otherwise |
+| 18      | 0 when none of the control bits are on, otherwise it is an even number |
+| ATCACG  | index sequence                           |
 
 当然，上面的表格介绍的只是其中一个测序仪下机数据，如果是其它机器，产商可以自由定义标识符格式，因为fastq格式的第一行只需要以\@符号开头即可。
 
@@ -87,13 +87,13 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIII9IG9IC
 其最初在Phred拼接软件中定义与使用，其后在许多软件中得到使用。
 其质量得分与错误概率的对应关系见下表：
 
-PHRED QUALITY SCORE | PROBABILITY OF INCORRECT BASE CALL |BASE CALL ACCURACY
----|---|---
-10| 	1 in 10|90 %
-20 | 	1 in 100|99%
-30 | 	1 in 1000|99.9%
-40 | 	1 in 10000 |99.99%
-50| 	1 in 100000|99.999%
+| PHRED QUALITY SCORE | PROBABILITY OF INCORRECT BASE CALL | BASE CALL ACCURACY |
+| ------------------- | ---------------------------------- | ------------------ |
+| 10                  | 1 in 10                            | 90 %               |
+| 20                  | 1 in 100                           | 99%                |
+| 30                  | 1 in 1000                          | 99.9%              |
+| 40                  | 1 in 10000                         | 99.99%             |
+| 50                  | 1 in 100000                        | 99.999%            |
 
 ```
 Phred quality scores Q are defined as a property which is logarithmically related to the base-calling error probabilities P.
@@ -139,13 +139,13 @@ Illumina 1.8+
 ```
 
 来至于 wikipedia：
- 
+
 #### 文件后缀
 
 没有特别的规定，通常使用.fq, .fastq, .txt等。
 但是要注意，这个文件格式主要指的是文本文件里面的每行每列的内容规则，并不是我们常见的计算机领域的mp3,mp4,avi,xls,doc等等。
 
- 
+
 其它注意事项: 
 
 * 双端测序一般有两个文件（也可通过某种规则把两个文件合并成一个）。
@@ -184,20 +184,20 @@ Fasta格式首先以大于号“>”开头，接着是序列的标识符“gi|18
 换行后是序列信息，序列中允许空格，换行，空行，直到下一个大于号，表示该序列的结束。
 下面简单给一个表格说明序列来源的数据库与对应的标识符
 
-Database Name数据库名称 | Identifier Syntax 标识符
-------------------------|-------------------------
-GenBank                 |  ```gb|accession|locus```
-EMBL Data Library | 	```emb|accession|locus```
-DDBJ, DNA Database of Japan | ```	dbj|accession|locus```
-NBRF PIR | 	```pir||entry```
-Protein Research Foundation | ```	prf||name```
-SWISS-PROT | ```sp|accession|entry name```
-Brookhaven Protein Data Bank | ```pdb|entry|chain```
-Patents| 	```pat|country|number```
-GenInfo Backbone Id | ```	bbs|number```
-General database identifier | ```	gnl|database|identifier```
-NCBI Reference Sequence | ```	ref|accession|locus```
-Local Sequence identifier|	```lcl|identifier```
+| Database Name数据库名称           | Identifier Syntax 标识符          |
+| ---------------------------- | ------------------------------ |
+| GenBank                      | ```gb|accession|locus```       |
+| EMBL Data Library            | ```emb|accession|locus```      |
+| DDBJ, DNA Database of Japan  | ```	dbj|accession|locus```     |
+| NBRF PIR                     | ```pir||entry```               |
+| Protein Research Foundation  | ```	prf||name```               |
+| SWISS-PROT                   | ```sp|accession|entry name```  |
+| Brookhaven Protein Data Bank | ```pdb|entry|chain```          |
+| Patents                      | ```pat|country|number```       |
+| GenInfo Backbone Id          | ```	bbs|number```              |
+| General database identifier  | ```	gnl|database|identifier``` |
+| NCBI Reference Sequence      | ```	ref|accession|locus```     |
+| Local Sequence identifier    | ```lcl|identifier```           |
 
 
 通常情况下序列的标识符不会像上面的例子那样复杂，再复杂的标识符也是有规则的，上面的标识符是NCBI定义的，可以去其官网了解详情。
@@ -213,58 +213,58 @@ Local Sequence identifier|	```lcl|identifier```
 
 FASTA格式支持的核苷酸代码如下：
 
-核苷酸代码|意义
----|---
-A | Adenosine
-C| Cytosine
-G| Guanine
-T | Thymidine
-U | Uracil
-R |G A (puRine)
-Y | T C (pYrimidine)
-K | G T (Ketone)
-M | A C (aMino group)
-S | G C (Strong interaction)
-W | A T (Weak interaction)
-B |G T C (not A) (B comes after A)
-D| G A T (not C) (D comes after C)
-H| A C T (not G) (H comes after G)
-V| G C A (not T, not U) (V comes after U)
-N|A G C T (aNy)
-X | masked
--| gap of indeterminate length
+| 核苷酸代码 | 意义                                     |
+| ----- | -------------------------------------- |
+| A     | Adenosine                              |
+| C     | Cytosine                               |
+| G     | Guanine                                |
+| T     | Thymidine                              |
+| U     | Uracil                                 |
+| R     | G A (puRine)                           |
+| Y     | T C (pYrimidine)                       |
+| K     | G T (Ketone)                           |
+| M     | A C (aMino group)                      |
+| S     | G C (Strong interaction)               |
+| W     | A T (Weak interaction)                 |
+| B     | G T C (not A) (B comes after A)        |
+| D     | G A T (not C) (D comes after C)        |
+| H     | A C T (not G) (H comes after G)        |
+| V     | G C A (not T, not U) (V comes after U) |
+| N     | A G C T (aNy)                          |
+| X     | masked                                 |
+| -     | gap of indeterminate length            |
 
 FASTA格式支持的氨基酸代码如下：
 
-氨基酸代码 | 意义
----|---
-A | Alanine
-B | Aspartic acid or Asparagine
-C| Cysteine
-D| Aspartic acid
-E| Glutamic acid
-F | Phenylalanine
-G | Glycine
-H | Histidine
-I|Isoleucine
-K |Lysine
-L | Leucine
-M | Methionine
-N| Asparagine
-O | Pyrrolysine
-P| Proline
-Q| Glutamine
-R |Arginine
-S| Serine
-T |Threonine
-U | Selenocysteine
-V | Valine
-W |Tryptophan
-Y |Tyrosine
-Z | Glutamic acid or Glutamine
-X |any
-*| translation stop
-- |gap of indeterminate length
+| 氨基酸代码 | 意义                          |
+| ----- | --------------------------- |
+| A     | Alanine                     |
+| B     | Aspartic acid or Asparagine |
+| C     | Cysteine                    |
+| D     | Aspartic acid               |
+| E     | Glutamic acid               |
+| F     | Phenylalanine               |
+| G     | Glycine                     |
+| H     | Histidine                   |
+| I     | Isoleucine                  |
+| K     | Lysine                      |
+| L     | Leucine                     |
+| M     | Methionine                  |
+| N     | Asparagine                  |
+| O     | Pyrrolysine                 |
+| P     | Proline                     |
+| Q     | Glutamine                   |
+| R     | Arginine                    |
+| S     | Serine                      |
+| T     | Threonine                   |
+| U     | Selenocysteine              |
+| V     | Valine                      |
+| W     | Tryptophan                  |
+| Y     | Tyrosine                    |
+| Z     | Glutamic acid or Glutamine  |
+| X     | any                         |
+| *     | translation stop            |
+| -     | gap of indeterminate length |
 
 
 参考链接
@@ -350,7 +350,7 @@ TAG	OQ:Z:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBCCCCCCBBCC@CCCCCCCCCCACCCCC;CCCBBC?CCCAC
 1. QNAME，比对片段的（template）的编号；
 
 2. FLAG，位标识，template mapping情况的数字表示，每一个数字代表一种比对情况，这里的值是符合情况的数字相加总和；
-（picard专门有一个工具解读sam的flag:http://broadinstitute.github.io/picard/explain-flags.html）
+  （picard专门有一个工具解读sam的flag:http://broadinstitute.github.io/picard/explain-flags.html）
 
 ```
 1	The read is one of a pair  read是pair中的一条（read表示本条read，mate表示pair中的另一条read）
@@ -430,7 +430,7 @@ filter <- FilterRules(list(MinWidth = function(x) width(x$seq) > 35))
 res <- scanBam(test_bam_file, filter=filter)[[1]]
 sapply(res, head)
 
-``` 
+```
 
 从上面的例子可以看到BAM文件需要用特殊的方法来读取，可以是R里面的Rsamtools包，也可以是linux环境下安装好的samtools软件，因为它是二进制文件，不能像普通的文本文件那样来打开。
 
@@ -441,9 +441,9 @@ sapply(res, head)
 ## VCF
 
 > Variant Call Format（VCF）是一个用于存储基因序列突变信息的文本格式。
-可以表示单碱基突变, 插入/缺失, 拷贝数变异和结构变异等。
-通常是对BAM文件格式的比对结果进行处理得到的。
-BCF格式文件是VCF格式的二进制文件。我们就不再介绍BCF格式啦。
+> 可以表示单碱基突变, 插入/缺失, 拷贝数变异和结构变异等。
+> 通常是对BAM文件格式的比对结果进行处理得到的。
+> BCF格式文件是VCF格式的二进制文件。我们就不再介绍BCF格式啦。
 
 提到vcf就必须提到千人基因组计划，因为千人计划组才产生的vcf。生信菜鸟团有一篇博客《居然可以下载千人基因组计划的所有数据bam，vcf数据》
 http://www.bio-info-trainee.com/1339.html
@@ -582,7 +582,7 @@ GT:AD:DP:GQ:PL 0/1:1,3:4:25.92:103,0,26
 GT：样品的基因型（genotype）。两个数字中间用’/'分开，这两个数字表示双倍体的sample的基因型。0 表示样品中有ref的allele； 1 表示样品中variant的allele； 2表示有第二个variant的allele。因此： 0/0 表示sample中该位点为纯合的，和ref一致； 0/1 表示sample中该位点为杂合的，有ref和variant两个基因型； 1/1 表示sample中该位点为纯合的，和variant一致。
 
 AD 和 DP：AD(Allele Depth)为sample中每一种allele的reads覆盖度,在diploid中则是用逗号分割的两个值，前者对应ref基因型，后者对应variant基因型；
- 
+
 DP（Depth）为sample中该位点的测序深度。
 
 GQ：基因型的质量值(Genotype Quality)。Phred格式(Phred_scaled)的质量值，表示在该位点该基因型存在的可能性；该值越高，则Genotype的可能性越大；计算方法：Phred值 = -10 * log (1-p) p为基因型存在的概率。
@@ -802,9 +802,9 @@ Gene_Anno_table: 其实就是把GTF的所有transcript行的第9列转换变成�
 ## BED
 
 > BED 文件格式提供了一种灵活的方式来定义的数据行，以用来描述注释的信息。
-跟GTF/GFF格式一样，也可以用来描述基因组特征。但没有GTF/GFF格式那么正规，通常用来描述任何人为定义的区间。
-但没有GTF/GFF格式那么正规，通常用来描述任何人为定义的区间。
-所以BED格式最重要的就是染色体加上起始终止坐标这3列。
+> 跟GTF/GFF格式一样，也可以用来描述基因组特征。但没有GTF/GFF格式那么正规，通常用来描述任何人为定义的区间。
+> 但没有GTF/GFF格式那么正规，通常用来描述任何人为定义的区间。
+> 所以BED格式最重要的就是染色体加上起始终止坐标这3列。
 
 
 #### 定义和示例
@@ -818,9 +818,9 @@ BED行有3个必须的列和9个额外可选的列。 每行的数据格式要�
 2. chromStart 染色体或scaffold的起始位置，染色体第一个碱基的位置是0
 
 3. chromEnd 染色体或scaffold的结束位置，染色体的末端位置没有包含到显示信息里面。例如，首先得100个碱基的染色体定义为chromStart =0 . chromEnd=100, 碱基的数目是0-99
- 
+
 ##### 9 个额外的可选列:
-　
+
 4. name 指定BED行的名字，这个名字标签会展示在基因组浏览器中的bed行的左侧。
 
 5. score 0到1000的分值，如果在注释数据的设定中将原始基线设置为１，那么这个分值会决定现示灰度水平（数字越大，灰度越高）
@@ -837,7 +837,7 @@ BED行有3个必须的列和9个额外可选的列。 每行的数据格式要�
 
 11. blockSize 用逗号分割的外显子的大小,这个item的数目对应于BlockCount的数目
 
-12.  blockStarts- 用逗号分割的列表, 所有外显子的起始位置，数目也与blockCount数目对应.
+12. blockStarts- 用逗号分割的列表, 所有外显子的起始位置，数目也与blockCount数目对应.
 
 一个简单的示例如下：
 
@@ -851,12 +851,11 @@ bed格式有相应的软件来处理这类格式的文件，如bedtools。
 
 * 注意：用于在GBrowse上展示相关注释的bed格式通常第一行有一个关于track的描述信息。
 
- 
+
  速记：
  * bed不是床，缺了主要3列就得黄~
  * 9列可选列，看了不会胡略略~~
-       
- 
+
 
 #### BED 与GFF的差异
 
@@ -886,17 +885,17 @@ MAF格式本来并不是一个常见的文本文件格式，只是因为癌症�
 
 以下几种类型的体细胞突变会在MAF文件中出现：
 *   错义突变及无义突变
-*	剪接位点，其定义为剪接位点2 bp以内的SNP
-*	沉默突变
-*	与基因的编码区、剪接位点或遗传元件目标区域重叠的引物。
-*	移码突变
-*	调控区突变
+  *剪接位点，其定义为剪接位点2 bp以内的SNP
+  *沉默突变
+  *与基因的编码区、剪接位点或遗传元件目标区域重叠的引物。
+  *移码突变
+  *调控区突变
 
 大部分MAF提交提交的是原始数据。这些原始数据中在体细胞中标记的位点与已知的变异类型相重合的。为避免有可能出现的细胞系污染，MAF规定了一定的下细胞过滤标准。根据现行政策，可开放获取MAF资料应满足：
 
 *	包括所有已验证的体细胞突变名称
-*	包括与编码区域或剪接位点重叠的所有未验证的体细胞突变名称
-*	排除所有其他类型的突变（即非体细胞突变、不在编码区域或剪接位点的未验证体的细胞突变以及未在dbSNP、COSMIC或OMIM中注释为体细胞的dbSNP位点）
+  *包括与编码区域或剪接位点重叠的所有未验证的体细胞突变名称
+  *排除所有其他类型的突变（即非体细胞突变、不在编码区域或剪接位点的未验证体的细胞突变以及未在dbSNP、COSMIC或OMIM中注释为体细胞的dbSNP位点）
 
 我们提交给DCC MAF存档的数据包括两种：Somatic MAF（named .somatic.maf）的开放访问数据以及不经过筛选的包含原始数据的Protected MAF（named.protected.maf）。所有数据将使用MAF标准进行格式化。 
 
@@ -1079,8 +1078,8 @@ MAF文件可能有两种格式 ，可能是47列，或者120列，第一行一�
    119	MC3_Overlap
    120	GDC_Validation_Status
 ```
- 
- 
+
+
 ```
 重要标准
 列表中每列的顺序最好与索引列相同。
@@ -1150,7 +1149,7 @@ genome.wustl.edu_OV.IlluminaGA_DNASeq.Level_2.7.6.0.tar.gz
 genome.wustl.edu_OV.IlluminaGA_DNASeq.Level_2.7.preliminary.somatic.maf
 genome.wustl.edu_OV.IlluminaGA_DNASeq.Level_2.7.protected.maf
 ```
-	
+
 参考链接：
 
 https://wiki.nci.nih.gov/display/TCGA/Mutation+Annotation+Format+%28MAF%29+Specification+-+v2.4
@@ -1159,7 +1158,12 @@ https://software.broadinstitute.org/software/igv/MutationAnnotationFormat
 
 https://wiki.nci.nih.gov/display/TCGA/Mutation+Annotation+Format+%28MAF%29+Specification
 
- 
+
 ## 其它格式 
 
 待添加
+
+
+
+### 本章节作者：曹换换
+
