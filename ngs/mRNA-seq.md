@@ -221,4 +221,6 @@ Rscript ../run_DEG.R -e exprSet.txt -g group_info.txt -c 'Day1-Day0' -s counts  
 
 这个数据量要重分析，对计算资源要求就比较高了，但是可以直接下载作者分析好的表达矩阵： ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE89nnn/GSE89843/suppl/GSE89843_TEP_Count_Matrix.txt.gz 
 
+而且表达矩阵的后续分析也不仅仅是差异表达那么简单，毕竟测了如此多的样本。
+
 ### 本章节作者：曾健明
