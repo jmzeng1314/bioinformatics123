@@ -214,5 +214,11 @@ Rscript ../run_DEG.R -e exprSet.txt -g group_info.txt -c 'Day1-Day0' -s counts  
 ```
 
 
+## 其它数据
+
+比如：https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE89843 测定了402个NSCLC病人和377个正常人的血小板的转录组，数据分析方法如下：
+> For further downstream analyses, reads were quality-controlled using Trimmomatic, mapped to the humane reference genome using STAR, and intron-spanning reads were summarized using HTseq.
+
+这个数据量要重分析，对计算资源要求就比较高了，但是可以直接下载作者分析好的表达矩阵： ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE89nnn/GSE89843/suppl/GSE89843_TEP_Count_Matrix.txt.gz 
 
 ### 本章节作者：曾健明
