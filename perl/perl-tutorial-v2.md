@@ -1,11 +1,13 @@
+---
+[TOC]
 ### 1. Perl生信编程课程内容
 #### 1.1. 推荐入门资料
-- **Perl语言入门（第六版)**-小骆驼 _（适合当作案头工具书，建议通读一遍）_
-- **Perl菜鸟教程**：http://www.runoob.com/perl/perl-tutorial.html _（简洁的菜鸟教程，结合小骆驼一起使用）_
-- **Perl帮助文档perldoc**：http://perldoc.perl.org/perl.html _(Perl自带的数千页文档）_
-- **Beginning Perl for Bioinformatics**_（简单翻阅，以本课程的实战题为主）_
-- **基因帮Perl讲义**(四部分)：数据结构介绍 ->控制程序流及文本处理 ->正则匹配与复杂数据结构->高效编程_（用Perl单行命令演示，不太适合初学者。）_
-- **Perl单行命令**_（简单翻阅，尝试实现简单的数据转换任务）_
+- Perl语言入门（第六版)-小骆驼 _（适合当作案头工具书，建议通读一遍）_
+- Perl菜鸟教程：http://www.runoob.com/perl/perl-tutorial.html _（简洁的菜鸟教程，结合小骆驼一起使用）_
+- Perl帮助文档perldoc：http://perldoc.perl.org/perl.html _(Perl自带的数千页文档）_
+- Beginning Perl for Bioinformatics_（简单翻阅，以本课程的实战题为主）_
+- 基因帮Perl讲义(四部分)：数据结构介绍 ->控制程序流及文本处理 ->正则匹配与复杂数据结构->高效编程_（用Perl单行命令演示，不太适合初学者。）_
+- Perl单行命令_（简单翻阅，尝试实现简单的数据转换任务）_
 
 #### 1.2. 划定学习范围和重点
 
@@ -63,10 +65,8 @@
 
 ### 2. 认识Perl和基础知识
 #### 2.1. 认识Perl(了解)
-> Perl: Practical Extraction and Report Language (实用报表提取语言)
-> 由 Larry Wall 在1987年创造，以实用、快速为开发目标，由于其灵活性被称为脚本语言的瑞士军刀。
-> ​                                                                                                                                   ——详见[Perl百度百科](https://baike.baidu.com/item/perl/851577?fr=aladdin)
-
+Perl: Practical Extraction and Report Language (实用报表提取语言)
+由 Larry Wall 在1987年创造，以实用、快速为开发目标，由于其灵活性被称为脚本语言的瑞士军刀。
 
 Perl的理念：There's More Than One Way To Do It. (不只一种方法来做一件事)
 
@@ -110,95 +110,45 @@ python 的理念：There's Only One Way To Do It.
 
      **只有想不到的，没有Perl做不到的。**
 
-     _我们学习Perl，主要目的就是使用Perl强大的文本处理功能来解放我们的眼睛和双手，提高工作效率；其次就是学会看懂别人用Perl写的软件，会安装依赖模块，能使用。_
-
 #### 2.2. 第一个Perl程序
 ##### 开发环境的搭建
 - 在Linux下，一般Perl都是自带的，但可能存在版本过旧的问题（一般v5.10以上），所以想要用最新版的可以自己下载安装包进行安装（参照[Perl菜鸟教程:Perl 环境安装](http://www.runoob.com/perl/perl-environment.html)）。
 
 - 在Windows下使用，可以选择安装Active Perl或者Strawberry Perl，最后添加到环境变量。
 
-  ![Strawberry Perl](./image/perl_install.png)
+    ![Strawberry Perl](./image/perl_install.png)
 > [ActiveState Perl](http://www.activestate.com/activeperl/downloads) ActiveState offers both a free community version and a commercially supported binary distribution of Perl for Win32 and Perl for Win64.
 > [Strawberry Perl](http://strawberryperl.com/): A 100% Open Source Perl for Windows that is exactly the same as Perl everywhere else; this includes using modules from [CPAN](https://www.perl.org/cpan.html), without the need for binary packages. Help is available from other Windows Perl developers on the #win32 irc channel on irc.perl.org (see [website](http://strawberryperl.com/) for access through a browser).
 
 - git bash
   本课程入门学习主要是使用windows下的git bash开发环境_（因为平时还是习惯用windows系统，git bash就是一个虚拟的Linux环境）_。
-```txt
-Perl命令行参数:
-$ perl -h
-Usage: perl [switches] [--] [programfile] [arguments]
-  -0[octal]         specify record separator (\0, if no argument)（指定记录分隔符）
-  -a                autosplit mode with -n or -p (splits _ into @F)（与-n或者-p一起使用，负责打开自动拆分模式，用于对空白字符进行隐式拆分，用空格分隔_并保存到@F中，相当于@F=split ''。）
-  -C[number/list]   enables the listed Unicode features
-  -c                check syntax only (runs BEGIN and CHECK blocks)（进行perl的语法检查，但不执行perl命令）
-  -d[:debugger]     run program under debugger（对脚本打开 Perl调试器。）
-  -D[number/list]   set debugging flags (argument is a bit mask or alphabets)（设置 Perl 的调试标记(请先检查 Perl 的安装情况，确保已经安装了调试器)，若要观察 Perl 是如何执行脚本的，可使用 -D14）
-  -e program        one line of program (several -e's allowed, omit programfile)可以让Perl程序在Perl命令行上运行
-  -E program        like -e, but enables all optional features
-  -f                don't do $sitelib/sitecustomize.pl at startup
-  -F/pattern/       split() pattern for -a switch (//'s are optional)（指定分割时把缺省的分隔符改为你想要的。例如把分离号定为非字符使用\W）
-  -i[extension]     edit <> files in place (makes backup if extension supplied)（在使用 <> 循环遍历文件时启用原位编辑模式。 如果没有规定扩展名的话，则原位修改各行内容，否则使用扩展名来修改输入文件名(以便充当备份文件)，并使用原位编辑的原文件名创建输出文件。 这也是所有 print 语句选择的文件句柄）
-  -Idirectory       specify @INC/#include directory (several -I's allowed)
-  -l[octal]         enable line ending processing, specifies line terminator（对输入内容自动chomp，对输出内容自动添加换行。使用-l有两个效果，第一自动 chomp输入分隔号，第二把$/值赋给$\(这样 print 的时候就会自动在末尾加\n)）
-  -mMmodule    execute "use/no module..." before executing program（再执行 Perl 脚本之前执行 use 方法。如果添加附加的文本，则可使用引号。方括号中的短横线表示把 use 指令替换为 no。）
-  -n                assume "while (<>) { ... }" loop around program（使用<>将所有@ARGV参数当作文件来逐行遍历运行，每一行将缺省保存在$_。相当于while(<>;){  }）
-  -p                assume loop like -n but print line also, like sed（使 Perl 隐式地循环遍历指定的文件，同时打印所有的行。自动循环+自动输出，相当于while(<>) { 脚本; print; }）
-  -s                enable rudimentary parsing for switches after programfile（再脚本名之后、文件名参数之前启用开关项解析，并从@ARGV数组中删除所有找到的开关项。将开关项设置为同名的标量型变量，并将标量赋值为1。例如，-abc在脚本中将转换为 $abc。)
-  -S                look for programfile using PATH environment variable（如果不支持 #!/usr/bin/perl 行，则让 Perl 在 PATH 环境变量中搜索脚本。）
-  -t                enable tainting warnings
-  -T                enable tainting checks（强制打开“污染“ 检查，用于测试脚本，一般只用在 setuid 或 setgid 程序上。推荐自行检查 CGI 脚本。）
-  -u                dump core after parsing program（编译后产生脚本的核心转储(基于 UNIX 系统)。）
-  -U                allow unsafe operations（允许 Perl 执行不安全的操作，如果是超级用户的话，则断开目录链接。）
-  -v                print version, patchlevel and license（打印 Perl 的版本信息。）
-  -V[:variable]     print configuration summary (or a single Config.pm variable)（打印最重要的 Perl 配置项和数组 @INC 中当前值的汇总。）
-  -w                enable many useful warnings	（打印警告信息，包括错误使用保留字、文件句柄、子例程等情况。）
-  -W                enable all warnings（它会提示你任何潜在的问题.Perl5.6.0之后的版本已经用usewarnings;替换了-w.你应该使用usewarnings因为它要比-w更灵活.）
-  -x[directory]     ignore text before #!perl line (optionally cd to directory)（忽略 #!/usr/bin/perl 行之前的任何文本。如果将目录名当作 -x 开关的参数，则 Perl 会在开始执行脚本之前自动切换到该目录。）
-  -X                disable all warnings（关闭所有警告。）
-```
-注意这里的`-a` `-e` `-l` `-n` `-F`的参数，后面讲Perl单行命令会用到的。
+
+  注意这里的`-a` `-e` `-l` `-n` `-F`的参数，后面讲Perl单行命令会用到的。
 
 >Perl也是有IDE的，但是我们是用不到的，不推荐去研究。
 
+
 #####  编写Perl程序方法
-
-> A: 创建一个perl文件：它有两种创建方法：
-> 1: 命令行创建*( vi +文件名.pl ，创建好后要编辑 ： i 进入插入模式，然后写自己的语句 编辑好后保存退出 ：先按一下ESC，然后按wq或:x保存退出 )*
-> 2: 文件编辑器创建。
-> B: 创建好Perl文件后，在命令行上执行它。**怎么执行？**
-
-**< VI编辑器>：**
-vi编辑器Linux上最基本的文本编辑器，要记忆很多快捷键。
-![vicmd](./image/vidoc.jpg)
-**1: 在工作目录打开git bash**
-
-在此之前先创建一个文件夹来放置我们接下来创建Perl的文件，最好讲数据也放在这个文件夹下面。（*要操作数据文件所在的地方就是就是工作目录。*)
-
+**<vi>：**
+1: 在工作目录打开git bash
 ![gitbash open](./image/gitbash_open.gif)
-**2: 在命令行敲入```vi test.pl```**
+2: 在命令行敲入```vi test.pl```
 ![vi](./image/vi_perl.png)
-**3：编写程序**
-在编写程序之前需要知道自己的perl版本以及安装在哪里```which perl```
->**`!/usr/bin/perl`解析：**
->在 Unix/Linux 环境中，一个脚本程序（程序文件必须是文本格式）通常以这样一行开始：
->`#!/usr/bin/perl`
->命令行，以#开始，特别像注释行，其实非也。其中，“#!” 在 Unix/Linux 中称为“Magic Word（什么神奇语句，也就是command interpretation）”，这是为了指明该脚本程序的默认处理程序（也就是说接下来的程序将是由perl这玩意来执行的）。我们这里给出的是“/usr/bin/perl”，也就是说，如果我们的程序（假设文件名为：hello.pl）第一行是上述内容的话，当我们直接执行以下命令时：
->`user@server$ ./hello.pl`
->系统默认是用“/usr/bin/perl”来解析并执行 hello.pl 的。
-
+3：编写程序
+  在编写程序之前需要知道自己的perl版本以及安装在哪里```which perl```
 ![which perl](./image/which_perl.png)
-i 进入插入模式；
-输入下列代码:
-
-```perl
-#! /usr/bin/perl
-print "biotrainee.com";
-```
-按esc 后，输入:x 指令，再按enter即可退出![exit_vi](./image/exit_vi.png)
+  ![vicmd](./image/vidoc.jpg)
+  i 进入插入模式；
+  ```perl
+  #! /usr/bin/perl
+  print "biotrainee.com";
+  ```
+  按esc 后，输入:x 指令，再按enter即可退出
+  ![exit_vi](./image/exit_vi.png)
 4: 运行程序
 修改成可执行文件：```chmod 755  test.pl```或者```chmod +x test.pl```
-在命令行界面直接```./test.pl```或者```perl test.pl```![perl run](./image/perlrun.gif)
+在shell界面直接```./test.pl```或者```perl test.pl```
+![perl run](./image/perlrun.gif)
 
 **< notepad++>：**
 >记住一些快捷键：
@@ -210,31 +160,18 @@ print "biotrainee.com";
 >可以参考：[Notepad++ 快捷键 大全](http://www.cnblogs.com/albert1017/archive/2012/08/09/2630405.html)
 
 1：编写程序
-_课堂演示_![notepad](./image/perlnotepad.gif)
-
+![notepad](./image/perlnotepad.gif)
 2：运行程序
 在程序所在文件夹处运行，同vi的程序运行方法。
 
-**<单行命令>：**
-
-类似sed、awk的语句编写:![oneline](./image/oneline.gif)
-```perl -e 'print "biotraninee.com";'```
-
-> `-e`  program        one line of program (several -e's allowed, omit programfile)可以让Perl程序在Perl命令行上运行
-> 单引号‘   ‘里面则放上要执行的语句。
+**<单行命令>**
+![oneline](./image/oneline.gif)
 
 **<练一练>**
-编写一个程序，输出```biotrainee.com```。（_程序编写方法很多种，咱们只选自己最方便的。_）
-
-
+编写一个程序，输出```biotrainee.com```
 
 #### 2.3. 良好的编程习惯
 ##### 使用内建警告信息
-**一般写程序，同时加上:**
-```perl
-use strict; 
-use warnings;
-```
 - 在运行时，加上-w命令行
   ```perl -w my_program.pl```
 - 程序中加上-w命令行
@@ -247,6 +184,13 @@ use warnings;
 >若要查看更详细的问题描述，在程序中加入：`use diagnostics;`
 >自动寻找因为错误拼写造成的错误，在程序中加入：`use strict;`，同时还要在整个程序中用my 声明变量。
 
+**<小总结>：**
+**一般写程序，同时加上:**
+```perl
+use strict; 
+use warnings;
+```
+>下面演示一些简单的语法知识写的小脚本就不加了，因为没有运行出结果，很容易找到问题的。
 
 ##### 使用帮助文档perldoc
 帮助文档是最好的Perl学习资料，当遇到不认识的标识、函数时，应首先查询帮助文档。
@@ -255,28 +199,12 @@ use warnings;
 ```perldoc perl```
 ![perldoc](./image/perldoc_help.png)
 具体阅读文档的方法，参考[第一章 Perl 哲学](http://www.jianshu.com/p/98173e7af633?utm_campaign=maleskine&utm_content=note&utm_medium=pc_all_hots&utm_source=recommendation)
-
 不知道为什么，git bash并不自带，所以推荐使用下面的网页版说明书。
 2：网页版perldoc说明书[Perl Programming Documentation](http://perldoc.perl.org/perl.html) 
 ![perldoc](./image/perldoc.png)
-_除此之外，学会使用搜索，我个人常用的搜索引擎是[全渠道搜索](http://dir.scmor.com/)，可以用里面的谷歌镜像来进行英文搜索，另外搜狗搜索可以检索微信、知乎上面的文章。_
+>除此之外，学会使用搜索，我个人常用的搜索引擎是[全渠道搜索](http://dir.scmor.com/)，可以用里面的谷歌镜像来进行英文搜索，另外搜狗搜索可以检索微信、知乎上面的文章。
 
 ##### 注释
-**<注释的作用>：**
-通过用自己熟悉的语言，在程序中对某些代码进行标注说明，这就是注释的作用，能够大大增强程序的可读性。
-
-**<注释的分类：单行注释/多行注释>：**
-一般都是使用#进行单行注释；
-多行注释可以借助编辑器，在notepad++中的快捷键是Ctrl+Q；
-![annotion](./image/annotion.gif)
-也可以使用进行多行注释:
-```perl
-=代码
-代码
-=cut
-```
-![annotion](./image/annotion2.gif)
-
 **<未使用注释程序示例>：**
 ```perl
 #!/usr/bin/perl 
@@ -368,18 +296,28 @@ while(<INPUT1>){
 close(INPUT1);
 close(OUTPUT);
 ```
+**<注释的作用>：**
+通过用自己熟悉的语言，在程序中对某些代码进行标注说明，这就是注释的作用，能够大大增强程序的可读性。
+
+**<注释的分类：单行注释/多行注释>：**
+一般都是使用#进行单行注释；
+多行注释可以借助编辑器，在notepad++中的快捷键是Ctrl+Q；
+![annotion](./image/annotion.gif)
+也可以使用
+```perl
+=代码
+代码
+=cut
+```
+![annotion](./image/annotion2.gif)
 
 ##### 编程的过程
 >上面的程序中，
->
 >1：两个输入数据：第一列为geneid，第二列为protein_accession对应的数据集表；带查询/转换的protein_accession号；
->
 >2：构思方法：根据已知的数据集构造以protein_accession为键，以geneid为值的哈希表；从文件中逐行读入，判断待查询的protein_accession号是否存在对应的键值对，如果存在的话就分别输出键和值。
->
 >3：输出数据：第一列为protein_accession，第二列为geneid的文本文件
 
-**<小总结>：**
-
+**<小总结>**
 - 确定必需输入，比如用户提供的数据或信息；
 - 对程序进行整体构思，包括程序计算输出结果的基本方法-算法；
 - 决定结果的输出形式；
@@ -389,12 +327,10 @@ close(OUTPUT);
 ##### 变量的定义（var）
 **程序就是用来处理数据的，而变量就是用来存储数据的。**
 >在程序中，有时我们需要对2个数据进行求和，那么该怎样做呢？
->
 >大家类比一下现实生活中，比如去超市买东西，往往咱们需要一个菜篮子，用来进行存储物品，等到所有的物品都购买完成后，在收银台进行结账即可。
->
 >如果在程序中，需要把2个数据，或者多个数据进行求和的话，那么就需要把这些数据先存储起来，然后把它们累加起来即可；
 
-在Perl中，存储一个数据，需要一个叫做**变量**的东西，如下示例:
+在Perl中，存储一个数据，需要一个叫做`变量`的东西，如下示例:
 ```perl
 $num1 = 45;  #$num1是一个变量
 $num2 = 54;  #$num2也是一个变量
@@ -417,8 +353,7 @@ print $result;
 _上面演示单引号和双引号的区别，单引号是输出内容本身而不是存储的数据。_
 
 ##### 变量的类型
-程序中：为了更充分的利用内存空间以及更有效率的管理内存，变量是有不同的类型的。
-
+程序中：为了更充分的利用内存空间以及更有效率的管理内存，变量是有不同的类型的。 
 **<标量 `$scalar`>:**
 标量 ( scalar ) 是Perl语言中最简单的一种数据结构。这种数据结构的变量可以是数字，字符串，浮点数。在使用时在变量的名字前加上一个美元符号"$"，也称为魔符 ( sigil ) ，表示是标量。
 ```perl
@@ -426,7 +361,6 @@ $a=123;            #数字123
 $b="Hello";        #字符串"Hello"
 $c=3.14;            #浮点数3.14
 ```
-
 **<数组 `@array`>：**
   列表 ( list ) 指的是标量的有序集合，而数组 ( array ) 则是储存列表的变量。数组变量以字符"@"开头，索引从0开始。
 ```perl
@@ -438,7 +372,6 @@ print '$nums[0] is ',"$nums[0]\n";
 print '$nums[1] is ',"$nums[1]\n";
 print '$result is ',"$result\n";
 ```
-
 **<哈希 `%hash`>：**
 哈希 ( hash ) 是一个无序的 key/value ( 键/值 ) 对集合。可以使用键作为下标获取值。哈希变量以字符"%"开头。
 ![var_hash](./image/223ce4e2-2470-4e53-8bed-6e03acaed851.png)
@@ -454,16 +387,12 @@ print $geneid2acc{"AAD12597.1"};
 ```
 
 >**<数组哈希>：**
->
 >数组哈希使用在perl中，如果想要一个键同时对应多个值，那么数组哈希会非常有用。 
 >数组哈希，顾名思义，就是把一整个数组作为哈希某一个键的值存储起来，可以是一维数组，也可以是多维数组。用图说明可能会更容易理解：
->
 >![2d hash](./image/9ae83c8b-7d3b-4485-a940-fe535f641bb0.png)
 >`$hash{$key}[$i]`
->
 >![hash](./image/ecb8c701-e8ee-4af9-9455-52fc95341b7f.png)
 >`$hash{$key}[$i][1]`表示数组中的第$i行的第2个元素
->
 >**<嵌套哈希（二维哈希）>：**
 >![2d hash](./image/f2da39d1-b0bd-4c80-81d2-a4a0b4529960.jpg)
 
@@ -473,16 +402,9 @@ print $geneid2acc{"AAD12597.1"};
 `$0`  程序名称 
 `@ARGV` 命令行参数
 `$.`  当前句柄当前行号
-除了上面的7个特殊变量，还有很多，详见[Perl菜鸟教程:http://www.runoob.com/perl/perl-special-variables.html](http://www.runoob.com/perl/perl-special-variables.html)。
-
-##### **小总结**
-变量就像菜篮子，数据放里面；
-$ @ %很简单，数据结构心牢记；
-特殊变量莫心烦，多看多记；
+除了上面的7个特殊变量，还有很多，详见[Perl菜鸟教程：除了上面的7个特殊变量，还有很多，详见[Perl菜鸟教程:http://www.runoob.com/perl/perl-special-variables.html](http://www.runoob.com/perl/perl-special-variables.html)。
 
 #### 2.5. 函数
-_函数相当于一个小功能，在excel里我们对某一组数据算总和的时候，会用到`sum()`来帮助我们完成这个工作，而不是一个一个加。_（Perl里的sum函数则存在标准库里的List::Util模块中，也可以自己进行对每个数进行遍历叠加进行统计，还有最大值`max()`、最小值`min()`、去重复`uniq()`这几个函数我也是常用的。）_。此外还有，对条DNA序列进行长度统计有`length()`函数，对一组数进行排序用`sort()`，函数的存在可以让我们可以少写代码，下面介绍常用的几个函数。_
-
 ##### 标量类函数
 **`length()`   # 返回字符串的长度**
 ```
@@ -564,8 +486,6 @@ printf "%.2f",$num;
 另外还有字符串的格式化输出，具体细节自己查阅资料。
 **`uc($str)`  转成大写**
 **`lc($tr)`      转成小写**
-
-还有前面数学函数`sin()`、`cos()`、`sqrt()`、`log()`、`abs()`、`rand()`、`srand()`。
 
 ##### 数组类函数
 **`scalar()` 数组的元素个数**
@@ -653,10 +573,8 @@ my $is_exist_2 = exists($geneid2acc{"11111"});
 print 'exists($geneid2acc{"O85067.1"}):',$is_exist_1,"\n";
 print 'exists($geneid2acc{"11111"}):',$is_exist_2,"\n";
 ```
-
 ##### 子函数（用户自定义函数）
 划为自学内容，不着急掌握；
-除了内置函数、模块中的函数，我们还可以根据自己的需求，自己编写函数来实现某功能，从而达到多次多处复用，使得脚本更加简洁。
 
 #### 2.6. 标示符
 **<标示符>：**
@@ -677,112 +595,111 @@ print 'exists($geneid2acc{"11111"}):',$is_exist_2,"\n";
 
 ##### 算术运算符
 
-表格实例中我们设置变量 `$a 为 10， $b 为 20`。
-_（下面的加减乘除基础运算符要记牢！）_
+表格实例中我们设置变量 $a 为 10， $b 为 20。
 
-| 运算符  | 描述          | 实例                      |
-| ---- | ----------- | ----------------------- |
-| +    | 加法运算        | `$a + $b` 结果为 30        |
-| -    | 减法运算        | `$a - $b` 结果为 -10       |
-| *    | 乘法运算        | `$a * $b` 结果为 200       |
-| /    | 除法运算        | `$b / $a` 结果为 2         |
-| %    | 求余运算，整除后的余数 | `$b % $a `结果为 0         |
-| **   | 乘幂          | `$a**$b `结果为 10 的 20 次方 |
+| 运算符  | 描述          | 实例                    |
+| ---- | ----------- | --------------------- |
+| +    | 加法运算        | $a + $b 结果为 30        |
+| -    | 减法运算        | $a - $b 结果为 -10       |
+| *    | 乘法运算        | $a * $b 结果为 200       |
+| /    | 除法运算        | $b / $a 结果为 2         |
+| %    | 求余运算，整除后的余数 | $b % $a 结果为 0         |
+| **   | 乘幂          | $a**$b 结果为 10 的 20 次方 |
 
 ##### 比较运算符
 
-表格实例中我们设置变量 `$a `为` 10`， `$b` 为` 20`。
+表格实例中我们设置变量 $a 为 10， $b 为 20。
 
-| 运算符  | 描述                                       | 实例                     |
-| ---- | ---------------------------------------- | ---------------------- |
-| ==   | 检查两个操作数的值是否相等，如果相等则条件为 true，否则为 false。   | (`$a == $b`) 为 false   |
-| !=   | 检查两个操作数的值是否相等，如果不相等则条件为 true，否则为 false。  | (`$a != $b`) 为 true。   |
-| <=>  | 检查两个操作数的值是否相等, 如果左边的数小于右边的数返回 -1，如果相等返回 0, 如果左边的数大于右边的数返回 1 。 | (`$a <=> $b`) 返回 -1。   |
-| >    | 检查左操作数的值是否大于右操作数的值，如果是则条件为 true，否则为 false。 | (`$a > $b`) 返回 false。  |
-| <    | 检查左操作数的值是否小于右操作数的值，如果是则条件为 true，否则返回 false。 | (`$a < $b`) 返回 true。   |
-| >=   | 检查左操作数的值是否大于或等于右操作数的值，如果是则条件为 true，否则返回 false。 | (`$a >= $b`) 返回 false。 |
-| <=   | 检查左操作数的值是否小于或等于右操作数的值，如果是则条件为 true，否则返回 false。。 | (`$a <= $b`) 返回 true。  |
+| 运算符  | 描述                                       | 实例                   |
+| ---- | ---------------------------------------- | -------------------- |
+| ==   | 检查两个操作数的值是否相等，如果相等则条件为 true，否则为 false。   | ($a == $b) 为 false   |
+| !=   | 检查两个操作数的值是否相等，如果不相等则条件为 true，否则为 false。  | ($a != $b) 为 true。   |
+| <=>  | 检查两个操作数的值是否相等, 如果左边的数小于右边的数返回 -1，如果相等返回 0, 如果左边的数大于右边的数返回 1 。 | ($a <=> $b) 返回 -1。   |
+| >    | 检查左操作数的值是否大于右操作数的值，如果是则条件为 true，否则为 false。 | ($a > $b) 返回 false。  |
+| <    | 检查左操作数的值是否小于右操作数的值，如果是则条件为 true，否则返回 false。 | ($a < $b) 返回 true。   |
+| >=   | 检查左操作数的值是否大于或等于右操作数的值，如果是则条件为 true，否则返回 false。 | ($a >= $b) 返回 false。 |
+| <=   | 检查左操作数的值是否小于或等于右操作数的值，如果是则条件为 true，否则返回 false。。 | ($a <= $b) 返回 true。  |
 
-以下表格实例中设置变量` $a `为 `"abc"` ，` $b `为` "xyz" `，然后使用比较运算符来计算结果。
+以下表格实例中设置变量 $a 为 "abc" ， $b 为 "xyz" ，然后使用比较运算符来计算结果。
 
 
-| 运算符  | 描述                                       | 实例                     |
-| ---- | ---------------------------------------- | ---------------------- |
-| lt   | 检查左边的字符串是否小于右边的字符串，如果是返回 true，否则返回 false。 | (`$a lt $b`) 返回 true。  |
-| gt   | 检查左边的字符串是否大于右边的字符串，如果是返回 true，否则返回 false。 | (`$a gt $b`) 返回 false。 |
-| le   | 检查左边的字符串是否小于或等于右边的字符串，如果是返回 true，否则返回 false。 | (`$a le $b`) 返回 true   |
-| ge   | 检查左边的字符串是否大于或等于右边的字符串，如果是返回 true，否则返回 false。 | (`$a ge $b`) 返回 false。 |
-| eq   | 检查左边的字符串是否等于右边的字符串，如果是返回 true，否则返回 false。 | (`$a eq $b`) 返回 false。 |
-| ne   | 检查左边的字符串是否不等于右边的字符串，如果是返回 true，否则返回 false。 | (`$a ne $b`) 返回 true   |
-| cmp  | 如果左边的字符串大于右边的字符串返回 1，如果相等返回 0，如果左边的字符串小于右边的字符串返回 -1。 | (`$a cmp $b`) 返回 -1。   |
+| 运算符  | 描述                                       | 实例                   |
+| ---- | ---------------------------------------- | -------------------- |
+| lt   | 检查左边的字符串是否小于右边的字符串，如果是返回 true，否则返回 false。 | ($a lt $b) 返回 true。  |
+| gt   | 检查左边的字符串是否大于右边的字符串，如果是返回 true，否则返回 false。 | ($a gt $b) 返回 false。 |
+| le   | 检查左边的字符串是否小于或等于右边的字符串，如果是返回 true，否则返回 false。 | ($a le $b) 返回 true   |
+| ge   | 检查左边的字符串是否大于或等于右边的字符串，如果是返回 true，否则返回 false。 | ($a ge $b) 返回 false。 |
+| eq   | 检查左边的字符串是否等于右边的字符串，如果是返回 true，否则返回 false。 | ($a eq $b) 返回 false。 |
+| ne   | 检查左边的字符串是否不等于右边的字符串，如果是返回 true，否则返回 false。 | ($a ne $b) 返回 true   |
+| cmp  | 如果左边的字符串大于右边的字符串返回 1，如果相等返回 0，如果左边的字符串小于右边的字符串返回 -1。 | ($a cmp $b) 返回 -1。   |
 
-_数字和字符串的比较运算符是不一样的，要注意区分。多与判读语句结合使用。_
+
 
 ##### 赋值运算符
 
-表格实例中我们设置变量 `$a 为 10， $b 为 20`。
+表格实例中我们设置变量 $a 为 10， $b 为 20。
 
-| 运算符  | 描述                               | 实例                                    |
-| ---- | -------------------------------- | ------------------------------------- |
-| =    | 简单的赋值运算符，把右边操作数的值赋给左边操作数         | `$c = $a + $b` 将把 `$a + $b` 的值赋给 `$c` |
-| +=   | 加且赋值运算符，把右边操作数加上左边操作数的结果赋值给左边操作数 | `$c += $a` 相等于 `$c = $c + $a`         |
-| -=   | 减且赋值运算符，把左边操作数减去右边操作数的结果赋值给左边操作数 | `$c -= $a` 相等于 `$c = $c - $a`         |
-| *=   | 乘且赋值运算符，把右边操作数乘以左边操作数的结果赋值给左边操作数 | `$c *= $a` 相等于 `$c = $c * $a`         |
-| /=   | 除且赋值运算符，把左边操作数除以右边操作数的结果赋值给左边操作数 | `$c /= $a` 相等于 `$c = $c / $a`         |
-| %=   | 求模且赋值运算符，求两个操作数的模赋值给左边操作数        | `$c %= $a` 相等于 `$c = $c % a`          |
-| **=  | 乘幂且赋值运算符，求两个操作数的乘幂赋值给左边操作数       | `$c **= $a` 相等于 `$c = $c ** $a`       |
-
-_常用的只有前面两个`=`和`+=`，初学者还是按常规写法练习。_
+| 运算符  | 描述                               | 实例                              |
+| ---- | -------------------------------- | ------------------------------- |
+| =    | 简单的赋值运算符，把右边操作数的值赋给左边操作数         | $c = $a + $b 将把 $a + $b 的值赋给 $c |
+| +=   | 加且赋值运算符，把右边操作数加上左边操作数的结果赋值给左边操作数 | $c += $a 相等于 $c = $c + $a       |
+| -=   | 减且赋值运算符，把左边操作数减去右边操作数的结果赋值给左边操作数 | $c -= $a 相等于 $c = $c - $a       |
+| *=   | 乘且赋值运算符，把右边操作数乘以左边操作数的结果赋值给左边操作数 | $c *= $a 相等于 $c = $c * $a       |
+| /=   | 除且赋值运算符，把左边操作数除以右边操作数的结果赋值给左边操作数 | $c /= $a 相等于 $c = $c / $a       |
+| %=   | 求模且赋值运算符，求两个操作数的模赋值给左边操作数        | $c %= $a 相等于 $c = $c % a        |
+| **=  | 乘幂且赋值运算符，求两个操作数的乘幂赋值给左边操作数       | $c **= $a 相等于 $c = $c ** $a     |
 
 ##### 位运算
-_不要求掌握，平时很少用到。_
 
-位运算符作用于位，并逐位执行操作。设置` $a = 60，$b = 13`
+位运算符作用于位，并逐位执行操作。设置 $a = 60，$b = 13
+
 位运算符如下表所示：
 
 | 运算符  | 描述                                       | 实例                                       |
 | ---- | ---------------------------------------- | ---------------------------------------- |
-| &    | 如果同时存在于两个操作数中，二进制 AND 运算符复制一位到结果中。       | (`$a & $b`) 将得到 12，二进制为 0000 1100        |
-| ^    | 如果存在于其中一个操作数中但不同时存在于两个操作数中，二进制异或运算符复制一位到结果中。 | (`$a ^ $b`) 将得到 49，二进制为 0011 0001        |
-| ~    | 二进制补码运算符是一元运算符，具有"翻转"位效果，即0变成1，1变成0。     | (`~$a` ) 将得到 -61 ，二进制为 1100 0011 ，一个有符号二进制数的补码形式。 |
-| <<   | 二进制左移运算符。左操作数的值向左移动右操作数指定的位数。            | `$a << 2` 将得到 240 ，二进制为 1111 0000        |
-| >>   | 二进制右移运算符。左操作数的值向右移动右操作数指定的位数。            | `$a >> 2` 将得到 15 ，二进制为 0000 1111         |
+| &    | 如果同时存在于两个操作数中，二进制 AND 运算符复制一位到结果中。       | ($a & $b) 将得到 12，二进制为 0000 1100          |
+| ^    | 如果存在于其中一个操作数中但不同时存在于两个操作数中，二进制异或运算符复制一位到结果中。 | ($a ^ $b) 将得到 49，二进制为 0011 0001          |
+| ~    | 二进制补码运算符是一元运算符，具有"翻转"位效果，即0变成1，1变成0。     | (~$a ) 将得到 -61 ，二进制为 1100 0011 ，一个有符号二进制数的补码形式。 |
+| <<   | 二进制左移运算符。左操作数的值向左移动右操作数指定的位数。            | $a << 2 将得到 240 ，二进制为 1111 0000          |
+| >>   | 二进制右移运算符。左操作数的值向右移动右操作数指定的位数。            | $a >> 2 将得到 15 ，二进制为 0000 1111           |
 
 ##### 逻辑运算符
-_常用在判断语句中，例如多个条件同时符合，或者只满足多个条件中的一个。_
 
 Perl 逻辑运算符如下表所示。
 
-表格实例中我们设置变量 `$a` 为 `true`,` $b` 为` false`。
+表格实例中我们设置变量 $a 为 true, $b 为 false。
 
-| 运算符  | 描述                                       | 实例                       |
-| ---- | ---------------------------------------- | ------------------------ |
-| and  | 逻辑与运算符符。如果两个操作数都为 true，则条件为 true。        | (`$a and $b`) 为 false。   |
-| &&   | C 风格的逻辑与运算符符。如果两个操作数都为 true，则条件为 true    | (`$a && $b`) 为 false。    |
-| or   | 逻辑或运算符。如果两个操作数中有任意一个非零，则条件为 true。        | (`$a or $b`) 为 true。     |
-| not  | 逻辑非运算符。用来反转操作数的逻辑状态。如果条件为 true，则逻辑非运算符将使其为 false。 | `not($a and $b)` 为 true。 |
+| 运算符  | 描述                                       | 实例                     |
+| ---- | ---------------------------------------- | ---------------------- |
+| and  | 逻辑与运算符符。如果两个操作数都为 true，则条件为 true。        | ($a and $b) 为 false。   |
+| &&   | C 风格的逻辑与运算符符。如果两个操作数都为 true，则条件为 true    | ($a && $b) 为 false。    |
+| or   | 逻辑或运算符。如果两个操作数中有任意一个非零，则条件为 true。        | ($a or $b) 为 true。     |
+| not  | 逻辑非运算符。用来反转操作数的逻辑状态。如果条件为 true，则逻辑非运算符将使其为 false。 | not($a and $b) 为 true。 |
 
 ##### 引号运算
-_不常用，了解即可。_
+
 Perl 引号运算符如下表所示。
 
-| 运算符   | 描述        | 实例                    |
-| ----- | --------- | --------------------- |
-| q{ }  | 为字符串添加单引号 | `q{abcd}` 结果为 'abcd'  |
-| qq{ } | 为字符串添加双引号 | `qq{abcd}` 结果为 "abcd" |
-| qx{ } | 为字符串添加反引号 | `qx{abcd}` 结果为 `abcd` |
+| 运算符   | 描述        | 实例                  |
+| ----- | --------- | ------------------- |
+| q{ }  | 为字符串添加单引号 | q{abcd} 结果为 'abcd'  |
+| qq{ } | 为字符串添加双引号 | qq{abcd} 结果为 "abcd" |
+| qx{ } | 为字符串添加反引号 | qx{abcd} 结果为 `abcd` |
 
 ##### 其他运算符
+
 除了以上我们提到的运算符外，Perl 还支持以下运算符：
+
 
 | 运算符  | 描述                | 实例                                       |
 | ---- | ----------------- | ---------------------------------------- |
-| .    | 点号 (.) 用于连接两个字符串。 | 如果 `$a="run", $b="oob"` ， `$a.$b` 结果为 "runoob" |
-| x    | x 运算符返回字符串重复的次数。  | (`'-' x 3`) 输出为 ---。                     |
-| ..   | .. 为范围运算符。        | (`2..5`) 输出结果为 (2, 3, 4, 5)              |
-| ++   | 自增运算符，整数值增加 1     | `$a =10, $a++  `输出为 11                   |
-| --   | 自减运算符，整数值减少 1     | `$a =10, $a--` 输出为 9                     |
-| ->   | 箭号用于指定一个类的方法      | `$obj->$a` 表示对象 `$obj 的 $a` 方法。          |
+| .    | 点号 (.) 用于连接两个字符串。 | 如果 $a="run", $b="oob" ， $a.$b 结果为 "runoob" |
+| x    | x 运算符返回字符串重复的次数。  | ('-' x 3) 输出为 ---。                       |
+| ..   | .. 为范围运算符。        | (2..5) 输出结果为 (2, 3, 4, 5)                |
+| ++   | 自增运算符，整数值增加 1     | $a =10, $a++ will 输出为 11                 |
+| --   | 自减运算符，整数值减少 1     | $a =10, $a-- 输出为 9                       |
+| ->   | 箭号用于指定一个类的方法      | $obj->$a 表示对象 $obj 的 $a 方法。              |
+
 
 
 ```perl
@@ -1032,7 +949,7 @@ copy("/home/shenmy/Ten_lake_new/3_Contig/LGH/METABAT-SUMMARY_PHYLUM_refine_1/bin
 
 #### 3.5. 目录（自学）
 要求读懂`fastqc_table.pl`代码中操作目录的代码并进行练习：
-对fastqc质控得到的`*_R1_fastqc.zip`和`*_R2_fastqc.zip`文件批量解压`for i in *.zip;  do unzip $i; done `后，`perl fastqc_table.pl`统计计算“总reads数、GC含量、Q20、Q30”。
+对fastqc质控得到的*_R1_fastqc.zip和*_R2_fastqc.zip文件批量解压`for i in *.zip;  do unzip $i; done `后，`perl fastqc_table.pl`统计计算“总reads数、GC含量、Q20、Q30”。
 
 
 | file_name                                | total_reads | GC   | Q20               | Q30               |
@@ -1105,17 +1022,15 @@ Perl的正则表达式的三种形式，分别是匹配，替换和转化:
 详见[Perl 正则表达式-runoob.com](http://www.runoob.com/perl/perl-regular-expressions.html)
 
 ### 6. 单行命令
-在熟悉上面的基础语法后，再学习Perl help里面的几个参数（-lane）后，就可以正式开始学习单行命令，用熟练了之后就非常方便，很多生物信息学数据处理过程基本不写脚本，都是直接写一行命令，完全代替了shell脚本里面的awk、sed/grep系列命令。
+在熟悉上面的基础语法后，再学习Perl help里面的几个参数后，就可以正式开始学习单行命令。[perl one-lines](http://www.biotrainee.com/thread-313-1-1.html)
 ![perl oneline](./image/0.2712930559474278.png)
-以上图片来自[perl one-lines](http://www.biotrainee.com/thread-313-1-1.html)
-课程中会演示几个常用单行命令。
 
 ### 7. 包、模块安装和使用
-- [cpanm](https://www.cpan.org/)
-- [metacpan](https://metacpan.org/)[The Comprehensive Perl Archive Network (CPAN) ](https://www.cpan.org/)
-- [perl模块安装大全](http://mp.weixin.qq.com/s/TJdAs9MmZmLDnTv-k_Lk7Q)
-- [非root权限 服务器 下安装perl以及perl模块:http://www.zilhua.com/403.html](http://www.zilhua.com/403.html)
-- [CIRCOS：PERL AND MODULES](http://circos.ca/documentation/tutorials/configuration/perl_and_modules/)
+cpanm
+[The Comprehensive Perl Archive Network (CPAN) ](https://www.cpan.org/)
+[perl模块安装大全](http://mp.weixin.qq.com/s/TJdAs9MmZmLDnTv-k_Lk7Q)
+[CIRCOS：PERL AND MODULES](http://circos.ca/documentation/tutorials/configuration/perl_and_modules/)
+
 
 ### 8. 实战练习题
 #### 8.1. 准备测试数据
@@ -1140,14 +1055,21 @@ http://www.bioinformatics.babraham.ac.uk/projects/fastqc/
 因此，质量值BBBBCCCC?<A?BC?7@@???????DBBA@@@@A@@：
 
 若采用Phred+64编码，应该为
+
 ```
 2,2,2,6,6,6,6,6,6,6,6,6,6,9,9,9,9,9,9,9,9,9,9,9,9,9,9,2,6,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,6,6,6,6,6,6,6,6,6,2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2,6,6,6,6,6,6,6
 ```
+
 若采用Phred+32编码，应该为
+
 ```
 33,33,33,37,37,37,37,37,37,37,37,37,37,40,40,40,40,40,40,40,40,40,40,40,40,40,40,33,37,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,37,37,37,37,37,37,37,37,37,37,33,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,33,37,37,37,37,37,37,37
 ```
+
+
 故，很明显，使用的是“Phred+32”编码，且质量值均大于30，错误率均小于千分之一，准确率大于99.9%。
+
+
 
 ![phred](./image/0.850128971211318.png)
 
