@@ -5,7 +5,7 @@
 1. 基因在染色体上线性排布
 2. 染色体会发生重组和交换
 
-其中BSA在三者中比较简单，基本原理用1991年的文献^[Identification of markers linked to disease-resistance genes by bulked segregant analysis: a rapid method to detect markers in specific genomic regions by using segregating populations.]的胶图就能解释清楚。但是你需要提供恰当的群体送样测序，不然会给造成后续的数据分析无法进行，所谓garbage in, garbage out.
+其中BSA在三者中比较简单，基本原理用1991年的文献^[Identification of markers linked to disease-resistance genes by bulked segregant analysis: a rapid method to detect markers in specific genomic regions by using segregating populations.]的胶图就能解释清楚。但是你需要提供**恰当**的群体送样测序，不然会给造成后续的数据分析无法进行，所谓garbage in, garbage out.
 ![](http://oex750gzt.bkt.clouddn.com/17-10-20/40048808.jpg)
 
 ## 流程介绍
@@ -35,14 +35,20 @@ BSA-Seq 在正向遗传学定位时也称之为Mapping-by-Sequencing, 分为如�
 在正式开始分析之前，需要预先构思项目结构，才能有序存放数据，保证数据的可重复性和鲁棒性(robust).
 
 ```shell
-mkdir -p BSA_pipeline/{data/seq, scripts, analysis}
-# {A,B} : 同时表示A和B
-# [AB] : A或B
-# ? : 任意单个字符
-# * : 任意多个字符
+mkdir -p BSA_pipeline/data/seq
+mkdir -p BSA_pipeline/scripts
+mkdir -p BSA_pipeline/analysis
+# 参考基因组和注释的位置
+genome=/path/to/TAIR10/Sequence/TAIR10.fa
+reference=/path/to/TAIR10/BWA/TAIR10.fa
+gff=/path/to/TAIR10/TAIR10_GFF3_genes.gff
+annotation=/path/to/TAIR10/TAIR10_functional_descriptions
+chrsize=/path/to/TAIR10/chrSizes.txt
 ```
 
-项目存放在BSA_pipeline, 测序数据存放项目下的data/seq中，分析脚本则是scripts，分析得到的结果则是在analysis.
+项目存放在BSA_pipeline, 测序数据存放项目下的`data/seq`中，分析脚本则是`scripts`，分析得到的结果则是在`analysis`。比方说我本次项目如下：
+
+![](http://oex750gzt.bkt.clouddn.com/17-10-20/58771683.jpg)
 
 ### 数据获取和清洗
 
@@ -51,7 +57,9 @@ mkdir -p BSA_pipeline/{data/seq, scripts, analysis}
 ```shell
 # 当前所在位置为项目文件下
 cd data/seq
-wget -q http://bioinfo.mpipz.mpg.de/shoremap/data/software/BC.fg.reads1.fq.gz & wget -q http://bioinfo.mpipz.mpg.de/shoremap/data/software/BC.fg.reads2.fq.gz & wget -q http://bioinfo.mpipz.mpg.de/shoremap/data/software/BC.bg.reads1.fq.gz &
+wget -q http://bioinfo.mpipz.mpg.de/shoremap/data/software/BC.fg.reads1.fq.gz & 
+wget -q http://bioinfo.mpipz.mpg.de/shoremap/data/software/BC.fg.reads2.fq.gz & 
+wget -q http://bioinfo.mpipz.mpg.de/shoremap/data/software/BC.bg.reads1.fq.gz &
 wget -q http://bioinfo.mpipz.mpg.de/shoremap/data/software/BC.bg.reads2.fq.gz &
 ```
 
@@ -75,10 +83,13 @@ mv *html *zip multiqc_data ../analysis
 
 ```shell
 # 项目根目录下
-reference=~/Genome/Athalina/TAIR10/BWA/TAIR10.fa #reference根据实际情况
-bwa mem -t 5 -M $reference BC.bg.reads1.fq.gz BC.bg.reads2.fq.gz | samtools sort -  -o  data/alignment/BC_bg_sort.bam
+bwa mem -t 5 -M $reference \
+data/seq/BC/BC.bg.reads1.fq.gz data/seq/BC/BC.bg.reads2.fq.gz | \
+samtools sort -  -o  data/alignment/BC_bg_sort.bam
 samtools index data/alignment/BC_bg_sort.bam
-bwa mm -t 5 -M $reference BC.fg.reads1.fq.gz BC.fg.reads2.fq.gz | samtools sort -  -o  data/alignment/BC_fg_sort.bam
+bwa mem -t 5 -M $reference \
+data/seq/BC/BC.fg.reads1.fq.gz data/seq/BC/BC.fg.reads2.fq.gz | \
+samtools sort -  -o  data/alignment/BC_fg_sort.bam
 samtools index data/alignment/BC_fg_sort.bam
 ```
 
@@ -94,19 +105,19 @@ SNP Calling的基本原理是利用贝叶斯定律:
 目前在人类中，最好用的Varint Calling软件是GATK，植物中也可以用，但是samtools mpipeup + bcftools 基本满足需求，也是Li用C开发的程序，运行效率高。
 
 ```shell
-samtools mpileup -vu -t AD,DP -f $reference data/alignment/BC_bg_sort.bam |\
+samtools mpileup -vu -t AD,DP -f $genome data/alignment/BC_bg_sort.bam |\
 bcftools call -vm -Ov > data/variant/BC_bg_raw_variant.vcf &
-samtools mpileup -vu -t AD,DP -f $reference data/alignment/BC_fg_sort.bam |\
+samtools mpileup -vu -t AD,DP -f $genome data/alignment/BC_fg_sort.bam |\
 bcftools call -vm -Ov > data/variant/BC_fg_raw_variant.vcf &
 ```
 
 ### 确定候选区域
 
-确定候选区域一般都是采用作图法，寻找由于连锁形成的peak。这一步可以借由SHOREmap完成， 也可通过R和Python进行作图，能作为R和Python编程练习.
+确定候选区域一般都是采用作图法，寻找由于连锁形成的peak。这一步可以借由SHOREmap完成， 也可通过R和Python进行作图。明天学习R和Python后可作为R和Python编程练习题。
 
 当然SHOREmap的安装就需要用到上午Linux基础学习的软件安装知识。
 
-> 这里涉及到一个新的概念叫做动态编译库，因为安装dislin需要用到libXm.so.4
+> 这里涉及到一个新的概念叫做动态编译库，安装dislin需要用到libXm.so.4. 安装SHOREmap则是要用dislin提供的so文件和头文件
 
 ```shell
 # 前置
@@ -144,35 +155,45 @@ mkdir ~/bin
 mv SHOREmap ~/bin
 ```
 
-如果你可以独立编译出SHOREmap，你的Linux基础已经过关了.因为这个过程涉及到软件下载，解压缩，环境变量，动态编译库，程序运行等。
+如果你可以独立编译出SHOREmap，你的Linux基础已经过关了。因为这个过程涉及到压下载，解压缩，环境变量，动态编译库，程序运行等。
 
-虽然软件的编译很复杂，但是使用却非常的简单：
+虽然软件的编译很复杂，但是使用相对比较简单：
 
 - SHOREmap convert: 格式转换
 
 ```shell
-~/bin/SHOREmap convert --marker bc_bg_raw_variant.vcf --folder Background -runid 1
-~/bin/SHOREmap convert --marker bc_fg_raw_variant.vcf --folder Foreground -runid 1
+mkdir -p analysis/shoremap
+~/bin/SHOREmap convert --marker data/variant/bc_bg_raw_variant.vcf \
+--folder analysis/shoremap/Background -runid 1
+~/bin/SHOREmap convert --marker data/variant/bc_fg_raw_variant.vcf \
+--folder analysis/shoremap/Foreground -runid 1
 ```
 
 - SHOREmap extract: 提取候选分子标记
 
 ```shell
-mkdir SHOREmap_analysis
+mkdir -p analysis/shoremap/SHOREmap_analysis
 # Background
-~/bin/SHOREmap extract --chrsizes chrSizes.txt --folder SHOREmap_analysis/background --marker Background/1_converted_variant.txt --consen Background/1_converted_consen.txt -verbose
+~/bin/SHOREmap extract --chrsizes $chrsize \
+--folder analysis/shoremap/SHOREmap_analysis/background \
+--marker analysis/shoremap/Background/1_converted_variant.txt \
+--consen analysis/shoremap/Background/1_converted_consen.txt -verbose
 # Foreground
-~/bin/SHOREmap extract --chrsizes chrSizes.txt --folder SHOREmap_analysis/foreground/ --marker Foreground/1_converted_variant.txt --consen Foreground/1_converted_consen.txt -verbose
+~/bin/SHOREmap extract --chrsizes $chrsize \
+--folder analysis/shoremap/SHOREmap_analysis/foreground/ \
+--marker analysis/shoremap/Foreground/1_converted_variant.txt \
+--consen analysis/shoremap/Foreground/1_converted_consen.txt -verbose
 ```
 
 - SHOREmap backcross: 回交分析
 
 ```shell
-SHOREmap backcross --chrsizes chrSizes.txt --marker Foreground/1_converted_variant.txt \
---consen SHOREmap_analysis/foreground/extracted_consensus_0.txt \
---folder SHOREmap_analysis/BC_analysis -plot-bc --marker-score 40 \
+SHOREmap backcross --chrsizes $chrsizes \
+--marker analysis/shoremap/Foreground/1_converted_variant.txt \
+--consen analysis/shoremap/SHOREmap_analysis/foreground/extracted_consensus_0.txt \
+--folder analysis/shoremap/SHOREmap_analysis/BC_analysis -plot-bc --marker-score 40 \
 --marker-freq 0.0 --min-coverage 10 --max-coverage 80 \
--bg Background/1_converted_variant.txt --bg-cov 1 --bg-freq 0.0 \
+-bg analysis/shoremap/Background/1_converted_variant.txt --bg-cov 1 --bg-freq 0.0 \
 --bg-score 1 --non-EMS --cluster 1 --marker-hit 1 -verbose
 ```
 
@@ -183,11 +204,11 @@ SHOREmap backcross --chrsizes chrSizes.txt --marker Foreground/1_converted_varia
 - SHOREmap annotate: 注释候选区域
 
 ```shell
-~/bin/SHOREmap annotate --chrsizes chrSizes.txt \
---folder SHOREmap_analysis/BC_analysis/ \
---snp Foreground/1_converted_variant.txt \
---chrom Chr3 --start 1 --end 4000000 --genome ../TAIR10.fa \
---gff ../TAIR10_GFF3_genes.gff
+~/bin/SHOREmap annotate --chrsizes $chrsize \
+--folder analysis/shoremap/SHOREmap_analysis/BC_analysis/ \
+--snp analysis/shoremap/Foreground/1_converted_variant.txt \
+--chrom Chr3 --start 1 --end 4000000 --genome $genome \
+--gff $gff
 ```
 
 查看AF大于0.8的位点，即可使用IGV查看对应位点：也可用直接搜索对应的注释数据库
@@ -197,8 +218,8 @@ SHOREmap backcross --chrsizes chrSizes.txt --marker Foreground/1_converted_varia
 - 查看详细的注释信息
 
 ```shell
-cat SHOREmap_analysis/BC_analysis/prioritized_snp_Chr3_1_4000000_peak1.txt  |\
-awk '$6 > 0.8 {print $p}' | cut -f 10 | xargs -i grep {} ../TAIR10_functional_descriptions
+cat analysis/shoremap/SHOREmap_analysis/BC_analysis/prioritized_snp_Chr3_1_4000000_peak1.txt  |\
+awk '$6 > 0.8 {print $p}' | cut -f 10 | xargs -i grep {} $annotation
 ```
 
 根据表型和注释信息相互验证，确定`AT3G05040.1`是候选基因，
@@ -207,12 +228,12 @@ awk '$6 > 0.8 {print $p}' | cut -f 10 | xargs -i grep {} ../TAIR10_functional_de
 
 ## 推荐阅读
 
-所有推荐资料存放在推荐阅读中
+所有推荐资料存放在扩展阅读，例如
 
-- Plant Functional Genomics
-- Using next-generation sequencing to isolate mutant genes from forward genetic screens
-
-
-
-### 本章节作者：徐洲更
+- Book: Plant Functional Genomics
+- Review: Using next-generation sequencing to isolate mutant genes from forward genetic screens
+- Protocol: Rapid identification of causal mutations in tomato EMS populations via mapping-by-sequencing
+- [Omictools](): https://omictools.com/ 
+- Nature Protocols
+- Nature Reviews
 
