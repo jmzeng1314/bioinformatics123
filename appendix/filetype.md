@@ -1,24 +1,23 @@
-# 数据存放类型 {#filetype}
+# 数据存放类型  {#filetype}
+
+##前言
 
 各行各业都有在自己的标准体系，生物信息学数据分析也不例外，各个厂商出品的芯片系列，还有各种NGS组学分析，都会涉及到不同的分析步骤，有着丰富多样的中间文件。其中一些常用的文件就被规定成文件格式。
 文件格式那么多，都可以了解一二，当然，不需要背诵它们所有的细节，不过对下面我们单独拿出来详细介绍的还是尽量要耳熟能详。
 
-简单来说，测序得到的是带有质量值的碱基序列(fastq格式)，参加基因组是(fasta格式)，用比对工具把fastq格式的序列回帖到对应的fasta格式的参考基因组序列，就可以产生sam格式的比对文件。
-把sam格式的文本文件压缩成二进制的bam文件可以节省空间，如果对参考基因组上面的各个区段标记它们的性质，比如哪些区域是外显子，内含子，UTR等等，这就是gtf/gff格式。
-如果只是为了单纯描述某个基因组区域，就是bed格式文件，记录染色体号以及起始终止坐标，正负链即可。
-如果是记录某些位点或者区域碱基的变化，就是VCF文件格式。
-
-上面的描述只是简要的介绍了文件有哪些，以及它们的名字，下面就正式对它们进行详细的介绍。
+简单来说，测序得到的是带有质量值的碱基序列(fastq格式)；参考基因组是(fasta格式)；用比对工具把fastq格式的序列回帖到对应的fasta格式的参考基因组序列，就可以产生sam格式的比对文件；把sam格式的文本文件压缩成二进制的bam文件可以节省空间；如果对参考基因组上面的各个区段标记它们的性质，比如哪些区域是外显子，内含子，UTR等等，这就是gtf/gff格式；
+如果只是为了单纯描述某个基因组区域，就是bed格式文件，记录染色体号以及起始终止坐标，正负链即可；如果是记录某些位点或者区域碱基的变化，就是VCF文件格式；如果仅仅是为了追踪参考基因组的各个区域的覆盖度，测序深度就可以用bigwig/wig格式。上面是对这些生信中的数据格式进行简介，下面将对这些数据格式进行详述。
 
 
 ## FASTQ
 
-FASTQ是基于文本的，保存生物序列（通常是核酸序列）和其测序质量信息的标准格式。
+**简介**
+
+FASTQ用于保存生物序列（通常是核酸序列）和其测序质量信息的标准格式。
 其序列以及质量信息都是使用一个ASCII字符标示，最初由Sanger开发。
 目的是将FASTA序列与质量数据放到一起，目前已经成为高通量测序结果的实施标准。
 
-
-#### 定义和示例 
+**一、定义和示例**
 
 FASTQ文件中每个序列通常有四行：
 
@@ -46,7 +45,7 @@ GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
  *老四质量分数最多事*
 ```
 
-#### 序列标识 
+**二、序列标识**
 
 上面说到第一行是序列标识以及相关的描述信息，以‘@’开头。可以像上面的示例那么简单，但如果是正规测序仪下机的真实数据，通常会很复杂。比如：
 
@@ -81,7 +80,7 @@ GGGTGATGGCCGCTGCCGATGGCGTCAAATCCCACC
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIII9IG9IC
 ```
 
-#### 质量编码格式
+**三、质量编码格式**
 
 质量评分指的是一个碱基的错误概率的对数值。
 其最初在Phred拼接软件中定义与使用，其后在许多软件中得到使用。
@@ -105,42 +104,19 @@ Q=-10lgP
 
 对于每个碱基的质量编码标示，不同的软件采用不同的方案，目前有5种方案：
 
-Sanger，Phred quality score，值的范围从0到92，对应的ASCII码从33到126，但是对于测序数据（raw read data）质量得分通常小于60，序列拼接或者mapping可能用到更大的分数。
-
-Solexa/Illumina 1.0, Solexa/Illumina quality score，值的范围从-5到63，对应的ASCII码从59到126，对于测序数据，得分一般在-5到40之间。
-
-Illumina 1.3+，Phred quality score，值的范围从0到62对应的ASCII码从64到126，低于测序数据，得分在0到40之间；
-
-Illumina 1.5+，Phred quality score，但是0到2作为另外的标示。
-
-Illumina 1.8+
+1. Sanger，Phred quality score，值的范围从0到92，对应的ASCII码从33到126，但是对于测序数据（raw read     data）质量得分通常小于60，序列拼接或者mapping可能用到更大的分数。
+2. Solexa/Illumina 1.0, Solexa/Illumina quality score，值的范围从-5到63，对应的ASCII码从59到126，对于测序数据，得分一般在-5到40之间。
+3. Illumina 1.3+，Phred quality score，值的范围从0到62对应的ASCII码从64到126，低于测序数据，得分在0到40之间；
+4. Illumina 1.5+，Phred quality score，但是0到2作为另外的标示。
+5. Illumina 1.8+
 
 下面是更为直观的表示：
 
-```
+![wikipedia-fastq-format](image/wiki-fastq-format.png)
 
-  SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....................................................
-  ..........................XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......................
-  ...............................IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII......................
-  .................................JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ......................
-  LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL....................................................
-  !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
-  |                         |    |        |                              |                     |
- 33                        59   64       73                            104                   126
+来自于 wikipedia：
 
- S - Sanger        Phred+33,  raw reads typically (0, 40)
- X - Solexa        Solexa+64, raw reads typically (-5, 40)
- I - Illumina 1.3+ Phred+64,  raw reads typically (0, 40)
- J - Illumina 1.5+ Phred+64,  raw reads typically (3, 40)
-    with 0=unused, 1=unused, 2=Read Segment Quality Control Indicator (bold)
-    (Note: See discussion above).
- L - Illumina 1.8+ Phred+33,  raw reads typically (0, 41)
- 
-```
-
-来至于 wikipedia：
-
-#### 文件后缀
+**四、文件后缀**
 
 没有特别的规定，通常使用.fq, .fastq, .txt等。
 但是要注意，这个文件格式主要指的是文本文件里面的每行每列的内容规则，并不是我们常见的计算机领域的mp3,mp4,avi,xls,doc等等。
@@ -157,16 +133,16 @@ Illumina 1.8+
 https://en.wikipedia.org/wiki/FASTQ_format
 
 
-
-
 ## FASTA  
 
-在生物信息学中，FASTA格式，是一种基于文本用于表示核苷酸序列或氨基酸序列的格式。
+**简介**
+
+FASTA格式用于表示核苷酸序列或氨基酸序列的格式。
 在这种格式中碱基对或氨基酸用单个字母来编码，且允许在序列前添加序列名及注释。
 fasta序列格式是blast组织数据的基本格式，无论是数据库还是查询序列，大多数情况都使用fasta序列格式。 
 它要比上一小节介绍的FASTQ格式简明很多。
 
-#### 定义和示例
+**一、定义和示例**
 
 总的来说，Fasta格式开始于一个标识符：">"，然后是一行描述，下面是的序列，直到下一个">",表示下一条。
 
@@ -209,7 +185,7 @@ Fasta格式首先以大于号“>”开头，接着是序列的标识符“gi|18
 *ABCDEFG换行组成序列呦~*
 ```
 
-#### 序列中字母代表的含义
+**二、序列中字母代表的含义**
 
 FASTA格式支持的核苷酸代码如下：
 
@@ -270,7 +246,7 @@ FASTA格式支持的氨基酸代码如下：
 参考链接
 https://en.wikipedia.org/wiki/FASTA_format
 
-注意事项：
+**注意事项：**
 
 对于自己构建的序列数据库（序列不是来源与NCBI或其他数据），可以采用“gnl|database|identifier”或者“lcl|identifier”格式，以保证可以使用blast的所有功能。
 database或者identifier是需要指定的数据库的标识和序列标识，指定的名称可以用大小写字母、数字、下划线“_”、破折号“-”或者点号“.”。
@@ -280,11 +256,13 @@ database或者identifier是需要指定的数据库的标识和序列标识，�
 
 ## SAM格式
 
+**简介**
+
+SAM格式主要应用于测序序列mapping到基因组上的结果表示，当然也可以表示任意的多重比对结果。
 SAM是一种序列比对格式标准，由sanger制定，是以TAB为分割符的文本格式。
-主要应用于测序序列mapping到基因组上的结果表示，当然也可以表示任意的多重比对结果。
 SAM的全称是sequence alignment/map format。
 
-#### 定义和示例
+**一、定义和示例**
 
 SAM分为两部分，注释信息（header section ）和比对结果部分 （alignment section）。
 通常是把FASTQ文件格式的测序数据比对到对应的参考基因组版本得到的。
@@ -308,9 +286,9 @@ SRR3101251.5 16 chr2 240279787 255 49M * 0 0 CCTGAATCCATCAGAGCAGCCGGGCTGTGACACTC
 SRR3101251.6 4 * 0 0 * * 0 0 NATTCCCACCTATGAGTGAGAATATGCGGTGTTTGGTTTTTTGTTCTTG #1=DDDFFHHHHHJJJGHIJJJJJJJJJJCGGIIJJIIJJJIJHJIIJJ XM:i:1
 ```
 
-前四行是注释信息，后面是比对结果，下面对比对结果进行解释，它是SAM格式文件的精华部分。
+前四行是注释信息，其后是比对结果，下面对比对结果进行解释，它是SAM格式文件的精华部分。
 
-#### 比对结果详解
+**二、比对结果详解**
 
 ```
 SRR035022.2621862 163 16 59999 37 22S54M = 60102 179 CCAACCCAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCGACCCTCACCCTCACCC >AAA=>?AA>@@B@B?AABAB?AABAB?AAC@B?@AB@A?A>A@A?AAAAB??ABAB?79A?AAB;B?@?@<=8:8 XT:A:M XN:i:2 SM:i:37 AM:i:37 XM:i:0 XO:i:0 XG:i:0 RG:Z:SRR035022 NM:i:2 MD:Z:0N0N52 OQ:Z:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBCCCCCCBBCC@CCCCCCCCCCACCCCC;CCCBBC?CCCACCACA@
@@ -345,7 +323,7 @@ TAG	OQ:Z:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBCCCCCCBBCC@CCCCCCCCCCACCCCC;CCCBBC?CCCAC
 
 比对结果部分（alignment section），每一行表示一个片段（segment）的比对信息，包括11个必须的字段（mandatory fields）和一个可选的字段，字段之间用tag分割。
 
-必须的字段有11个，顺序固定，不可用时，根据字段定义，可以为’0‘或者’*‘，这是11个字段包括：
+必须的字段有11个，顺序固定，不可自行改动，根据字段定义，可以为’0‘或者’*‘，这是11个字段包括：
 
 1. QNAME，比对片段的（template）的编号；
 
@@ -371,7 +349,7 @@ TAG	OQ:Z:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBCCCCCCBBCC@CCCCCCCCCCACCCCC;CCCBBC?CCCAC
 
 6. CIGAR，简要比对信息表达式（Compact Idiosyncratic Gapped Alignment Report），其以参考序列为基础，使用数字加字母表示比对结果，比如3S6M1P1I4M，前三个碱基被剪切去除了，然后6个比对上了，然后打开了一个缺口，有一个碱基插入，最后是4个比对上了，是按照顺序的；
 ```
-M”表示 match或 mismatch；
+“M”表示 match或 mismatch；
 “I”表示 insert；
 “D”表示 deletion；
 “N”表示 skipped（跳过这段区域）；
@@ -395,7 +373,7 @@ M”表示 match或 mismatch；
 12. 可选字段（optional fields)，格式如：TAG:TYPE:VALUE，其中TAG有两个大写字母组成，每个TAG代表一类信息，每一行一个TAG只能出现一次，TYPE表示TAG对应值的类型，可以是字符串、整数、字节、数组等。
 
 
-#### SAM要处理好的问题
+**三、SAM要处理好的问题**
 
 - 非常多序列（read)，mapping到多个参考基因组（reference）上
 - 同一条序列，分多段（segment）比对到参考基因组上
@@ -419,7 +397,9 @@ https://en.wikipedia.org/wiki/SAM_(file_format)
 
 ## BAM 格式
 
-> 本质上就是二进制压缩的SAM文件，大部分生物信息学流程都需要这个格式，为了节省存储空间已经方便索引。
+**简介**
+
+本质上就是二进制压缩的SAM文件，大部分生物信息学流程都需要这个格式，为了节省存储空间以及方便索引。
 
 ```{r,warning=F,cache=T,message=F}
 # BiocInstaller::biocLite('Rsamtools')
@@ -432,7 +412,7 @@ sapply(res, head)
 
 ```
 
-从上面的例子可以看到BAM文件需要用特殊的方法来读取，可以是R里面的Rsamtools包，也可以是linux环境下安装好的samtools软件，因为它是二进制文件，不能像普通的文本文件那样来打开。
+从上面的例子（需要在R里面运行）可以看到BAM文件需要用特殊的方法来读取，可以是R里面的Rsamtools包，也可以是linux环境下安装好的samtools软件，因为它是二进制文件，不能像普通的文本文件那样来打开。
 
 我们用R里面的head函数查看了该BAM文件的前6行，比对的flag分别是```16  0 16 16  0  0```,说明有3条序列没有成功比对到基因组。width信息说明该序列长度都是36bp。序列的碱基以及对应的碱基质量也如上所述。
 
@@ -440,10 +420,12 @@ sapply(res, head)
 
 ## VCF
 
-> Variant Call Format（VCF）是一个用于存储基因序列突变信息的文本格式。
-> 可以表示单碱基突变, 插入/缺失, 拷贝数变异和结构变异等。
-> 通常是对BAM文件格式的比对结果进行处理得到的。
-> BCF格式文件是VCF格式的二进制文件。我们就不再介绍BCF格式啦。
+**简介**
+
+ Variant Call Format（VCF）是一个用于存储基因序列突变信息的文本格式。
+ 可以表示单碱基突变, 插入/缺失, 拷贝数变异和结构变异等。
+ 通常是对BAM文件格式的比对结果进行处理得到的。
+ BCF格式文件是VCF格式的二进制文件。我们就不再介绍BCF格式啦。
 
 提到vcf就必须提到千人基因组计划，因为千人计划组才产生的vcf。生信菜鸟团有一篇博客《居然可以下载千人基因组计划的所有数据bam，vcf数据》
 http://www.bio-info-trainee.com/1339.html
@@ -451,14 +433,11 @@ http://www.bio-info-trainee.com/1339.html
 
 当然，所有的数据格式定义，都推荐大家看原汁原味的英文介绍，那个是金标准，我们的翻译只是为了促进大家的理解，如果有模棱两可的地方，以英文原文为准：https://samtools.github.io/hts-specs/VCFv4.2.pdf 
 
-#### 定义和示例
+**一、定义和示例**
 
-```
-{r vcf,fig.cap="vcf文件可以记录的基因组变异类型", fig.align='center', echo=FALSE}
-knitr::include_graphics("image/C2/vcf_variation_class.jpg")
 
-```
 
+![vcf文件可以记录的基因组变异类型](image/vcf_variation_class.jpg)
 
 如上图所示，vcf记录的即为各类型的变异。例如：点突变，拷贝数变异，插入，缺失等结构变异。
 
@@ -534,7 +513,7 @@ INFO： 这一行是variant的详细信息，内容很多，以下再具体详�
 FORMAT 和 sample1 ：这两行合起来提供了 sample1 这个sample的基因型的信息。’sample1′代表这该名称的样品，是由SAM/BAM文件中的@RG下的 SM 标签决定的。
 (当然并不是所有的VCF都是由一个BAM文件产生，比如数据库dbSNP提供的vcf文件，就没有样本信息啦)
 
-#### 第8列的INFO
+**1、第8列的INFO**
 
 该列信息最多了，都是以 “TAG=Value”, 并使用”;”分隔的形式 。 其中 很多的注释信息在VCF文件的头部注释中给出。以下是这些TAG的解释
 
@@ -570,7 +549,7 @@ ReadPosRankSum：Z-score from Wilcoxon rank sum test of Alt vs. Ref read positio
 
 STR：Variant is a short tandem repeat
 
-#### 9和10列代表基因型
+**2、9和10列代表基因型**
 
 ```
 GT:AD:DP:GQ:PL 0/1:173,141:282:99:255,0,255 
@@ -581,7 +560,7 @@ GT:AD:DP:GQ:PL 0/1:1,3:4:25.92:103,0,26
 
 GT：样品的基因型（genotype）。两个数字中间用’/'分开，这两个数字表示双倍体的sample的基因型。0 表示样品中有ref的allele； 1 表示样品中variant的allele； 2表示有第二个variant的allele。因此： 0/0 表示sample中该位点为纯合的，和ref一致； 0/1 表示sample中该位点为杂合的，有ref和variant两个基因型； 1/1 表示sample中该位点为纯合的，和variant一致。
 
-AD 和 DP：AD(Allele Depth)为sample中每一种allele的reads覆盖度,在diploid中则是用逗号分割的两个值，前者对应ref基因型，后者对应variant基因型；
+AD 和 DP：AD(Allele Depth)为sample中每一种allele的reads覆盖度，在diploid中则是用逗号分割的两个值，前者对应ref基因型，后者对应variant基因型。
 
 DP（Depth）为sample中该位点的测序深度。
 
@@ -589,35 +568,30 @@ GQ：基因型的质量值(Genotype Quality)。Phred格式(Phred_scaled)的质�
 
 PL：指定的三种基因型的质量值(provieds the likelihoods of the given genotypes)。这三种指定的基因型为(0/0,0/1,1/1)，这三种基因型的概率总和为1。和之前不一致，该值越大，表明为该种基因型的可能性越小。 Phred值 = -10 * log (p) p为基因型存在的概率。
 
-```
-{r vcf_detail,fig.cap="VCF文件的官方描述", fig.align='center', echo=FALSE}
-knitr::include_graphics("/C2/vcf_file_format.jpg")
-```
+![VCF文件的官方描述](image/vcf_file_format.jpg)
 
 上图可以帮助很好的理解vcf格式。
 
 
-注意事项：
+**注意事项：**
 　　
 针对vcf格式有如bcftools等软件进行处理。
 
 生信菜鸟团的博客和生信技能树里面都介绍了很多处理vcf的软件。
-　　
 
 强烈推荐去看《生信技能树》中的：我的基因组28 
 <https://en.wikipedia.org/wiki/Variant_Call_Format>
 
 ## GTF和GFF
 
+**简介**
+
 GFF全称为general feature format，这种格式主要是用来注释基因组。
-
 GTF全称为gene transfer format，主要是用来对基因进行注释。
-
 GTF和GFF格式是Sanger研究所定义，是一种简单的、方便的对于DNA、RNA以及蛋白质序列的特征进行描述的一种数据格式.
 比如序列的哪里到哪里是基因，是转录本，是外显子，内含子或者CDS等等，已经成为序列注释的通用格式，许多软件都支持输入或者输出gff格式。
 
-
-#### 定义和示例
+**一、定义和示例**
 
 gff由tab键隔开的9列组成，以下是各列的说明：
 
@@ -683,7 +657,7 @@ ctg123 . CDS 7000 7600 . + 2 ID=cds00004;Parent=mRNA00003
 ```
 可以看到第9列其实是可以无限扩展的，只需要以封号进行分割即可。
 
-#### GTF 与GFF的差异
+**二、GTF 与GFF的差异**
 
 GTF文件以及GFF文件都由9列数据组成，这两种文件的前8列都是相同的（一些小的差别），它们的差别重点在第9列。
 
@@ -721,9 +695,12 @@ http://blog.sina.com.cn/s/blog_8a4f556e0102yd3l.html
 
 ##  GenePred
 
-> 这种格式主要用在基因浏览器中基因预测的track。如果有可变剪切的情况，那表格的每一行就是一个 transcript 的全部信息。
+**简介**
 
-#### 定义和示例
+GenePred格式主要用于基因浏览器中基因预测的track。
+如果有可变剪切的情况，那表格的每一行就是一个 transcript 的全部信息。
+
+**一、定义和示例**
 
 每一行的具体解释如下
 ```
@@ -782,8 +759,7 @@ GTF格式非常冗余。以人类转录组为例，Gencode V22的GTF文件为1.2
 
 GenePred是Jimmy Kent创建UCSC genome browser的时候建立的文件格式。UCSC的文件格式定义是非常smart的，包括之后我可能会讲到的2bit，bigwig格式。
 
-
-#### GTF vs GenePred
+**二、GTF vs GenePred**
 
 - 从文件大小上来看，压缩前：GTF（1.2G) >> Genepred(23M) + Gene_Anno_table (2.8M)。压缩后：GTF(40M) >> GenePred(7.8M) +Gene_Anno_table (580K)
 - 从可读性来讲，GTF是以gene interval 为单位（行），每行可以是gene，transcript，exon，intron，utr等各种信息，看起来什么都在里面，很全面，其实可读性非常差，而且容易产生各种错误。GenePred格式是以transcript为单位，每行就是一个transcript，简洁直观。
@@ -801,17 +777,18 @@ Gene_Anno_table: 其实就是把GTF的所有transcript行的第9列转换变成�
 
 ## BED
 
-> BED 文件格式提供了一种灵活的方式来定义的数据行，以用来描述注释的信息。
-> 跟GTF/GFF格式一样，也可以用来描述基因组特征。但没有GTF/GFF格式那么正规，通常用来描述任何人为定义的区间。
-> 但没有GTF/GFF格式那么正规，通常用来描述任何人为定义的区间。
-> 所以BED格式最重要的就是染色体加上起始终止坐标这3列。
+**简介**
 
+BED 文件格式提供了一种灵活的方式来定义的数据行，用于描述注释的信息。
+跟GTF/GFF格式一样，也可以用来描述基因组特征。但没有GTF/GFF格式那么正规，通常用来描述    任何人为定义的区间。
+但没有GTF/GFF格式那么正规，通常用来描述任何人为定义的区间。
+所以BED格式最重要的就是染色体加上起始终止坐标这3列。
 
-#### 定义和示例
+**一、定义和示例**
 
 BED行有3个必须的列和9个额外可选的列。 每行的数据格式要求一致。
 
-##### 必须包含的3列是：
+**1、必须包含的3列是：**
 
 1. chrom, 染色体或scafflold 的名字(eg chr3， chrY, chr2_random, scaffold0671 )
 
@@ -819,7 +796,7 @@ BED行有3个必须的列和9个额外可选的列。 每行的数据格式要�
 
 3. chromEnd 染色体或scaffold的结束位置，染色体的末端位置没有包含到显示信息里面。例如，首先得100个碱基的染色体定义为chromStart =0 . chromEnd=100, 碱基的数目是0-99
 
-##### 9 个额外的可选列:
+**2、9 个额外的可选列:**
 
 4. name 指定BED行的名字，这个名字标签会展示在基因组浏览器中的bed行的左侧。
 
@@ -839,7 +816,7 @@ BED行有3个必须的列和9个额外可选的列。 每行的数据格式要�
 
 12. blockStarts- 用逗号分割的列表, 所有外显子的起始位置，数目也与blockCount数目对应.
 
-一个简单的示例如下：
+**3、一个简单的示例如下：**
 
 ```
 track name=pairedReads description="Clone Paired Reads" useScore=1
@@ -851,13 +828,14 @@ bed格式有相应的软件来处理这类格式的文件，如bedtools。
 
 * 注意：用于在GBrowse上展示相关注释的bed格式通常第一行有一个关于track的描述信息。
 
+  **速记：**
 
- 速记：
  * bed不是床，缺了主要3列就得黄~
- * 9列可选列，看了不会胡略略~~
+
+ * 9列可选列，看了不会胡略略~
 
 
-#### BED 与GFF的差异
+**二、BED 与GFF的差异**
 
 BED文件中起始坐标为0，结束坐标至少是1,； 
 
@@ -877,9 +855,12 @@ https://en.wikipedia.org/wiki/General_feature_format
 
 ## MAF
 
-MAF格式本来并不是一个常见的文本文件格式，只是因为癌症研究实在是太热门了，对它的理解也变得需求旺盛起来了。
+**简介**
 
-#### MAF的说明 
+MAF格式通常用于记录体细胞突变。
+MAF本来并不是一个常见的文本文件格式，只是因为癌症研究实在是太热门了，对它的理解也变得需求旺盛起来了。
+
+**一、MAF的说明**
 
 这些文件应该使用下面描述的突变注释格式（MAF）进行格式化。另外下文中有文件命名规范。
 
@@ -899,8 +880,7 @@ MAF格式本来并不是一个常见的文本文件格式，只是因为癌症�
 
 我们提交给DCC MAF存档的数据包括两种：Somatic MAF（named .somatic.maf）的开放访问数据以及不经过筛选的包含原始数据的Protected MAF（named.protected.maf）。所有数据将使用MAF标准进行格式化。 
 
-
-#### MAF文件字段
+**二、MAF文件字段**
 
 MAF文件的格式是以制表符分隔的列。这些列都在表1中进行了详细注释，每个MAF文件中都必须按照相应格式进行处理，DCC将验证每列的顺序是否符合标注。每列的标题和值有时需要区分大小写。列中允许出现空值（即空白单元格）或枚举值。验证器将查找是否存在一个符合规范（例如#version 2.4）的标题，如果没有，验证将会失败。除了出现在表1中的列外，也可以选择附加其他列。可选列不经过DCC验证，可以按任何顺序进行。
 
@@ -1086,8 +1066,9 @@ MAF文件可能有两种格式 ，可能是47列，或者120列，第一行一�
 标有“Case Sensitive“的列所有标题都需要区分大小写。
 标有”Null“的列表示允许具有空值。
 标有“Enumerated column”的列表示具有指定的值，比如“Enumerated value” 是"No"表示该列没有指定的值；其他值表示允许列出的具体值; “Set”表示该列的值来自指定的一组已知值（例如HUGO基因符号）
+
 ```
-##### MAF文件检查
+  **三、MAF文件检查**
 
 DCC 档案验证器将检查MAF文件的完整性。如果MAF文件中的任何一项出现错误，验证将失败：
 
@@ -1128,9 +1109,10 @@ f)	如果Variant_Type == "ONP", 那么length(Reference_Allele) == length(Tumor_S
 a)	列＃33必须包含肿瘤样本的BCR等分试样的UUID的Tumor_Sample_UUID
 b)	列＃34必须是Matched_Norm_Sample_UUID，其中包含用于匹配正常样本的BCR等份的UUID
 c)	由Tumor_Sample_Barcode和Matched_Norm_Sample_Barcode表示的元数据应分别对应于分配给Tumor_Sample_UUID和Matched_Norm_Sample_UUID的UUID
+
 ```
 
-#### MAF命名协议
+**三、MAF命名协议**
 
 在上传到DCC的档案中，MAF文件名应与以下方式与包含档案名称相关：
 如果存档名称是：
@@ -1157,6 +1139,173 @@ https://wiki.nci.nih.gov/display/TCGA/Mutation+Annotation+Format+%28MAF%29+Speci
 https://software.broadinstitute.org/software/igv/MutationAnnotationFormat
 
 https://wiki.nci.nih.gov/display/TCGA/Mutation+Annotation+Format+%28MAF%29+Specification
+
+# Wiggle、BigWig和bedgraph
+
+**简介**
+
+Wiggle、BigWig和bedgraph仅仅用于追踪参考基因组的各个区域的覆盖度，测序深度。与sam/bam格式文件不同，bam或者bed格式的文件主要是为了追踪我们的reads到底比对到了参考基因组的哪些区域。注意这几者的差别。
+Wiggle、BigWig和bedgraph均由UCSC规定的文件格式，可以无缝连接到UCSC的Genome Browser工具里面进行可视化。
+wig和bigWig文件的优势在于可以体现出数据大小的变化和高低，例如组蛋白修饰的峰值等。
+
+
+**一、定义**
+
+**Bigwig：**简写为bw，它规定了全基因组数据的每个坐标区间的测序深度，bigWig是通过wig格式的文件转换的二进制压缩文件，是一种全基因组计算或实验信号数据的压缩的，索引的二进制格式，使用该格式更加节省空间。
+**Wiggle**：简写为wig，表示基因组上一个区域的信号，可以上传至UCSC上进行可视化。而wig文件也是和BED文件类似的包含区域信息的文件，一般使用MACS峰值探测后可以产生wig格式的文件。
+
+**二、Wiggle文件示例**
+
+Wig是一种比较老的格式，展示连续值的数据，比如GC百分比，转录组数据等，Wig的数据被压缩的，储存在128个独特的仓中，当导出为其他格式时，会有很小的损失。
+
+在UCSC中具体使用哪种数据格式，细节见：http://genomewiki.ucsc.edu/index.php/Selecting_a_graphing_track_data_format。以UCSC给的Wig参考文件为例，Wig的数据是面向行的，第一行定义了track的属性，比如track type=wiggle_0，指定track为Wig track，为默认选项。其余为可选。一般不用管这些参数，除非你已经很熟悉UCSC的Genome Browser工具。下面是wiggle文件示例。
+
+```
+
+track type=wiggle_0 name="variableStep" description="variableStep format" visibility=full autoScale=off viewLimits=0.0:25.0 color=50,150,255 yLineMark=11.76 yLineOnOff=on priority=10
+variableStep chrom=chr19 span=150
+49304701 10.0
+49304901 12.5
+49305401 15.0
+49305601 17.5
+49305901 20.0
+49306081 17.5
+49306301 15.0
+49306691 12.5
+49307871 10.0
+#	200 base wide points graph at every 300 bases, 50 pixel high graph
+#	autoScale off and viewing range set to [0:1000]
+#	priority = 20 positions this as the second graph
+#	Note, one-relative coordinate system in use for this format
+track type=wiggle_0 name="fixedStep" description="fixedStep format" visibility=full autoScale=off viewLimits=0:1000 color=0,200,100 maxHeightPixels=100:50:20 graphType=points priority=20
+fixedStep chrom=chr19 start=49307401 step=300 span=200
+1000
+ 900
+ 800
+ 700
+ 600
+ 500
+ 400
+ 300
+ 200
+ 100
+```
+
+**三、Wig文件详解**
+
+Wig文件主要由两部分格式组成，**<u>variableStep format</u>**和**<u>fixedStep format</u>**。**variableStep format**以一个声明开始，明确了染色体的序号，跨度(span)。后面跟两列数据，染色体开始的碱基位置，数据的值value（可以理解为覆盖度）。span参数可以将含有相同value的连续碱基包含在一起，使数据更加简洁。如下，variableStep format span=150，包含的第一行数据49304701   10.0表示49304701-49304851有相同的value，为10.0。
+
+```
+variableStep chrom=chr2
+300701 12.5
+300702 12.5
+300703 12.5
+300704 12.5
+300705 12.5 
+```
+
+等价于：
+
+```
+variableStep chrom=chr2 span=5
+300701 12.5
+```
+
+都表示在2号染色体300701-300705位置上有相同的value，且value=12.5。
+
+第二部分为**fixedStep format，** 由声明和单列数据组成。声明部分和variableStep format中各变量的意义一样。
+
+```
+fixedStep chrom=chr3 start=400601 step=100 span=5
+11
+22
+33 
+```
+
+表示在3号染色体400601-400605, 400701-400705, and 400801-400805三个区域，value值分别为11, 22, 和 33。Wig中的value值可以是整数，实数，正数或者负数。只有指定的位置有value值，没有制定的位置则没有value，且不会在UCSU Genome Browser中作出图。
+
+其实对我们的bam文件，用samtools软件也可以很容易得到基因组区域的覆盖度和测序深度，比如：
+
+samtools depth -r **chr12:126073855-126073965**  Ip.sorted.bam
+
+> chr12    126073855    5
+>
+> chr12    126073856    15
+>
+> chr12    126073857    31
+>
+> chr12    126073858    40
+>
+> chr12    126073859    44
+>
+> chr12    126073860    52
+>
+> ...其余省略输出...
+
+这其实就是wig文件的雏形，但是wig文件会更复杂一点！
+
+首先它不需要第一列了，因为全部是重复字段，只需要在每个染色体的第一行定义好染色体即可。
+
+**四、文件转换示例**
+
+BigWig格式是wig格式文件的二进制压缩版本，用于密集连续的数据，并在基因组浏览器中进行可视化，是UCSC推荐的一种格式。BigWig文件是由原始的Wig格式通过wigToBigWig工具转换过来， 
+转换工具命令示例：
+
+```
+# create the chrom.sizes file for the UCSC database (e.g., hg19).
+fetchChromSizes  hg19 > chrSize.txt
+# Convert wig to big wig:  
+wigToBigWig input.wig chrSize.txt myBigWig.bw
+```
+
+输出的BigWig文件大约比原始Wig文件多占用50%的内存（UCSC数据格式转换代码见：http://barcwiki.wi.mit.edu/wiki/SOPs/coordinates）。也可以由bedGraph 格式通过bedGraphToBigWig转换，这里不作展开。BigWig的主要优点是仅将显示特定区域所需的部分传输到UCSC，所以对于大数据集的文件，BigWig比Wig文件速度快。BigWig主要存在用户可以获得的网页上(http, https or ftp)，而不在UCSC服务器上，只有当前正在查看的染色体位置所需的文件部分在本地缓存为一个“稀疏文件”。
+
+**五、BedGraph文件示例**
+
+最后顺便讲讲BedGraph ，它的trace type和Wig文件很像，不过后面的数据和bed文件很类似，ChIPseq数据做完peak calling后的bed文件最短只有三列，染色体序号，染色体起始位置和结束位置。如下图，前面的声明和Wig类似，后面的四列分别表示染色体序号，起始位置，结束位置和value值。相当于为bed文件的延伸格式。
+
+```
+browser position chr19:49302001-49304701
+browser hide all
+browser pack refGene encodeRegions
+browser full altGraph
+#	300 base wide bar graph, autoScale is on by default == graphing
+#	limits will dynamically change to always show full range of data
+#	in viewing window, priority = 20 positions this as the second graph
+#	Note, zero-relative, half-open coordinate system in use for bedGraph format
+track type=bedGraph name="BedGraph Format" description="BedGraph format" visibility=full color=200,100,0 altColor=0,100,200 priority=20
+chr19 49302000 49302300 -1.0
+chr19 49302300 49302600 -0.75
+chr19 49302600 49302900 -0.50
+chr19 49302900 49303200 -0.25
+chr19 49303200 49303500 0.0
+chr19 49303500 49303800 0.25
+chr19 49303800 49304100 0.50
+chr19 49304100 49304400 0.75
+chr19 49304400 49304700 1.00
+
+```
+
+**文件格式选择**
+
+Wig数据的元素大小必须是一样的。
+
+如果数据大小不一样，应该使用bedGraph格式，如果数据过大，就转换为bigWig。
+
+参考链接：
+
+http://genome.ucsc.edu/goldenPath/help/wiggle.html
+
+http://genome.ucsc.edu/goldenPath/help/bigWig.html
+
+http://genome.ucsc.edu/goldenPath/help/bedgraph.html
+
+http://genomewiki.ucsc.edu/index.php/Selecting_a_graphing_track_data_format
+
+http://www.bio-info-trainee.com/1815.html
+
+http://barcwiki.wi.mit.edu/wiki/SOPs/coordinates
+
 
 
 ## 其它格式 

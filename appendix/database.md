@@ -1,17 +1,21 @@
 # 生物信息学数据库资源 {#database}
 
-做数据分析常常会需要用到参考基因组和注释文件，还会需要分析公共数据，了解常见的生物信息学数据库资源也是非常有必要的！
+##前言
+
+做数据分析常常会需要用到参考基因组和注释文件，还会需要分析公共数据，了解常见的生物信息学数据库资源也是非常有必要的！故本章首先介绍常用的参考基因组和注释文件，然后介绍生物信息常用的数据库资源如：NCBI，Ensembl，UCSC，ENCODE，GENCODE，TCGA，1000GENOME 。
 
 
 ## 参考基因组版本 {#genome-version}
 
-#### 不同版本对应关系
+**一、不同版本对应关系**
 
-hg19，GRCH37和ensembl75是三种国际生物信息学数据库资源收集存储单位，即NCBI，UCSC和ENSEMBL各自发布的基因组信息。
+hg19，GRCH37和ensembl75是三种国际生物信息学数据库资源收集存储单位，即NCBI，UCSC和ENSEMBL各自发布的人类基因组信息。
 
 hg系列，hg18/19/38来自UCSC也是目前使用频率最高的基因组。从出道至今我就只看过hg19了，但是建议大家都转为hg38，因为它是目前的最新版本。
 
-基因组各种版本对应关系综合来看如下所示：
+基因组各种版本对应关系综合来看如下所示 ：
+
+​       NCBI    (UCSC)  :  ENSEMBL
 
 - GRCh36 (hg18): ENSEMBL release_52.
 - GRCh37 (hg19): ENSEMBL release_59/61/64/68/69/75.
@@ -36,21 +40,23 @@ Sep 07 2011 00:00    Directory BUILD.37.2
 Dec 12 2012 00:00    Directory BUILD.37.3
 ```
 
-从上面可以看到，有37.1， 37.2和 37.3 等等，不过这种版本一般指的是注释在更新而基因组序列一般不变。
+从上面可以看到，有37.1， 37.2和 37.3 等等，不过这种版本一般指的**是注释在更新**而基因组序列一般不变。
 
-总之你需要记住，hg19基因组大小是3G，压缩后八九百兆，如果你下载到的参考基因组大小远偏离这个范围，那么肯定出问题了。
+注意！hg19基因组大小是3G，压缩后八九百兆，如果你下载到的参考基因组大小远偏离这个范围，那么肯定出问题了。
 
-如果要下载GTF注释文件，基因组版本尤为重要。
+**二、GTF文件下载的各个版本**
 
-##### **NCBI**：最新版（hg38）
+如果要下载**GTF注释文件**，基因组版本尤为重要。有以下多个版本：
+
+**NCBI**：最新版（hg38）
 
 - ftp://ftp.ncbi.nih.gov/genomes/H_sapiens/GFF/ 
 
-##### **NCBI**：其它版本
+**NCBI**：其它版本
 
 - <ftp://ftp.ncbi.nlm.nih.gov/genomes/Homo_sapiens/ARCHIVE/>
 
-##### **Ensembl**
+**Ensembl**
 
 - <ftp://ftp.ensembl.org/pub/release-75/gtf/homo_sapiens/Homo_sapiens.GRCh37.75.gtf.gz>
 
@@ -58,25 +64,27 @@ Dec 12 2012 00:00    Directory BUILD.37.3
 
 - <ftp://ftp.ensembl.org/pub/>
 
-##### **UCSC** 
+**UCSC**
 
-它本身需要一系列参数：
+是一个网页版工具，需要选择一系列参数：
 
 ```
 1. Navigate to http://genome.ucsc.edu/cgi-bin/hgTables
 2. Select the following options:
-clade: Mammal
-genome: Human
-assembly: Feb. 2009 (GRCh37/hg19)
-group: Genes and Gene Predictions
-track: UCSC Genes
-table: knownGene
-region: Select "genome" for the entire genome.
-output format: GTF - gene transfer format
-output file: enter a file name to save your results to a file, or leave blank to display results in the browser
+          clade: Mammal
+          genome: Human
+          assembly: Feb. 2009 (GRCh37/hg19)
+          group: Genes and Gene Predictions
+          track: UCSC Genes
+          table: knownGene
+          region: Select "genome" for the entire genome.
+          output format: GTF - gene transfer format
+          output file: enter a file name to save your results to a file, or leave blank to display results in the browser
 3. Click 'get output'.
 ```
-搞清楚版本关系了，接下来就是进行下载。UCSC里面下载非常方便，只需要根据基因组简称来拼接url：
+**三、参考基因组下载示例**
+
+搞清楚版本关系了，接下来就是进行下载。UCSC里面下载非常方便，只需要根据**基因组简称来拼接url**：
 
 ```
 http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/chromFa.tar.gz
@@ -88,20 +96,27 @@ http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/chromFa.tar.gz
 
 ```
 for i in $(seq 1 22) X Y M;
-do echo $i;
-wget http://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/chr${i}.fa.gz;
+	do echo $i;
+	wget http://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/chr${i}.fa.gz;
 done
+
 gunzip *.gz
+
 for i in $(seq 1 22) X Y M;
-do cat chr${i}.fa >> hg19.fasta;
+	do cat chr${i}.fa >> hg19.fasta;
 done
+
 rm -fr chr*.fasta
 ```
+上面简单介绍了做人类研究的工作者该如何下载数据分析时候需要的必备数据，里面就涉及到了各种数据库资源，下面就需要对各大常用数据库及其子数据库进行介绍。
 
 ## NCBI
 
 NCBI (National Center for Biotechnology Information，美国国立生物技术信息中心）于1988年11月4日建立，是NIH（美国国立卫生研究院）的NLM（国立医学图书馆）的一个分支。目的是通过提供在线生物学数据和生物信息学分析工具来帮助人类更好的认知生物学问题。
-目前有将近40个在线的文库和分子生物学数据库，包括：PubMed, PubMed Central, and GenBank等。网址： https://www.ncbi.nlm.nih.gov/
+
+目前有将近40个在线的文库和分子生物学数据库，包括：PubMed, PubMed Central, and GenBank等。
+
+网址： https://www.ncbi.nlm.nih.gov/
 
 **一、任务**
 
@@ -114,35 +129,35 @@ NCBI (National Center for Biotechnology Information，美国国立生物技术�
 
 1.文献数据库
 
-包括：PubMed,PubMed Central,Books等
+​	包括：PubMed,PubMed Central,Books等
 
 2.序列资源库
 
-包括人，小鼠，果蝇，线虫等各种物种的基因组数据库
+​	包括人，小鼠，果蝇，线虫等各种物种的基因组数据库
 
-包含DNA，RNA，蛋白等各种类型的数据
+​	包含DNA，RNA，蛋白等各种类型的数据
 
-如：SNP,GEO,SRA等
+​	如：SNP,GEO,SRA等
 
 3.常用序列分析工具
 
 * Entrez -- 数据挖掘的工文本条件查询工具（Text Term Searching）
-来自于超过10万个种物的核酸和蛋白序列数据，连同蛋白三维结构，基因组图谱信息和文献信息检索
-网址：https://www.ncbi.nlm.nih.gov/gquery/
+  来自于超过10万个种物的核酸和蛋白序列数据，连同蛋白三维结构，基因组图谱信息和文献信息检索
+  网址：https://www.ncbi.nlm.nih.gov/gquery/
 
-* BLAST -- 序列比对工具
-
-https://blast.ncbi.nlm.nih.gov/Blast.cgi
+* BLAST -- 序列比对工具 https://blast.ncbi.nlm.nih.gov/Blast.cgi
 
 4.数据下载与上传
 
-数据下载接口：ftp://ftp.ncbi.nlm.nih.gov/
+​	数据下载接口：ftp://ftp.ncbi.nlm.nih.gov/
 
-上传的工具有：Sequin，tbl2asn等，链接地址：https://www.ncbi.nlm.nih.gov/guide/data-software/
+​	上传的工具有：Sequin，tbl2asn等，链接地址：https://www.ncbi.nlm.nih.gov/guide/data-software/
 
 5.其他合作项目
 
-我们比较常用的就是检索文献，检索序列，比对序列。了解更多内容可以参考官网手册：https://www.ncbi.nlm.nih.gov/books/NBK143764/
+​	我们比较常用的就是检索文献，检索序列，比对序列。
+
+​	了解更多内容可以参考官网手册：https://www.ncbi.nlm.nih.gov/books/NBK143764/
 
 **参考资料**
 
@@ -152,7 +167,7 @@ https://www.ncbi.nlm.nih.gov/books/NBK143764/
 
 #### GEO
 
-基因表达数据库(GEO,Gene Expression Omnibus database，https://www.ncbi.nlm.nih.gov/geo/ )是由NCBI负责维护的一个数据库，设计初衷是为了收集整理各种表达芯片数据，但是后来也加入了甲基化芯片，lncRNA，miRNA，CNV芯片等各种芯片，甚至高通量测序数据,是目前最大、最全面的公共基因表达数据资源。所有的数据均可以在ftp站点下载：ftp://ftp-trace.ncbi.nih.gov/geo/
+基因表达数据库(GEO,Gene Expression Omnibus database，https://www.ncbi.nlm.nih.gov/geo/ )是由NCBI负责维护的一个数据库，设计初衷是为了收集整理各种表达芯片数据，但是后来也加入了甲基化芯片，lncRNA，miRNA，CNV芯片等各种芯片，甚至高通量测序数据。是目前最大、最全面的公共基因表达数据资源。所有的数据均可以在ftp站点下载：ftp://ftp-trace.ncbi.nih.gov/geo/ 
 
 首先，我们在GEO的主页（ https://www.ncbi.nlm.nih.gov/geo/ ）可以看到：
 
@@ -173,7 +188,7 @@ https://www.ncbi.nlm.nih.gov/books/NBK143764/
     GEO Platform (GPL) 芯片平台
     GEO Sample (GSM) 样本ID号
 
-这些数据都可以在ftp里面直接下载。
+这些数据均可在ftp里直接下载。
 
 **二、数据上传**
 
@@ -191,33 +206,33 @@ http://www.biotrainee.com/thread-810-1-1.html
 
 **三、数据挖掘**
 
-1. Entrez GEO-DataSets
+**1.Entrez GEO-DataSets**
 
 官网： http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=gds
 
 收录整个实验数据，可以通过技术类型，作者，物种和实验变量等信息来进行搜索。一旦相关数据被查询到，可以通过提供上面的小工具做一些分析，比如：热电图分析，表达分析，亚群的影响等
 
-2.Entrez GEO-Profiles
+**2.Entrez GEO-Profiles**
 
 官网：https://www.ncbi.nlm.nih.gov/geoprofiles/
 
 收录单个基因的表达谱数据。可以通过基因名字，GenBank编号，SAGE标签，GEO编号等来进行搜索
 
-3.GEO BLAST
+**3.GEO BLAST**
 
 GEO Blast界面容许用户根据核酸序列的相似性来搜索相关的GEO-Profiles
 所有的BLAST结果中“E”的标签代表这个数据跟GEO-Profiles表达数据相关。
 
-4. 数据下载
+**4.数据下载**
 
-我们一般是拿到了GSE的study ID号，然后直接把什么的url修改一下，就可以看到关于该study的所以描述信息，是用的什么测序平台(芯片数据，或者高通量测序)，测了多少个样本，来自于哪篇文章！
+通常我们拿到了GSE的study ID号，然后直接上面的url修改一下（下面有具体的实例），就可以看到关于该study的所以描述信息，是用的什么测序平台(芯片数据，或者高通量测序)，测了多少个样本，来自于哪篇文章！
 所有需要的数据均可以下载，而且都是在上面的ftp里面可以根据规律去找到的，甚至可以自己拼接下载的url链接，来做批量化处理！
 
 例如：用GSE75528，则在https://www.ncbi.nlm.nih.gov/geo/  官网上直接搜索GSE75528
 或直接输入 https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE75528 修改这个url最末尾的GSE号码就可以进入自己想去的任何研究的GEO页面。
 
 如果是芯片数据，那么就需要自己仔细看GPL平台里面关于每个探针对应的注释信息，才能利用好别人的数据。
-如果是高通量测序数据，一般要同步进入该GSE对应的SRA里面去下载sra数据，然后转为fastq格式数据，自己做处理！
+如果是高通量测序数据，一般要同步进入该GSE对应的SRA里面去下载sra数据，然后转为fastq格式数据，数据格式转换需要自己做处理。
 
 **四、其他**
 
@@ -232,7 +247,7 @@ GEO Blast界面容许用户根据核酸序列的相似性来搜索相关的GEO-P
 1. 根据GEO accession找到FTP地址
 2. 用wget循环下载FTP地址下的数据
 
-```
+```python
 #!/bin/python3
 import refrom urllib.request
 import urlopen
@@ -279,7 +294,7 @@ Experiments包含了样本，DNA source，测序平台，数据处理等信息�
 一个experiment可能包含一个或多个runs。
 Runs 表示测序仪运行所产生的reads.
 ```
-SRA数据库用不同的前缀加以区分：ERP or SRP for Studies, SRS for samples, SRX for Experiments, and SRR for Runs。
+SRA数据库用不同的前缀加以区分：ERP or SRP for Studies,  SRS for samples,  SRX for Experiments, and SRR for Runs。
 
 **二、数据上传**
 
@@ -318,12 +333,12 @@ $prefetch SRR776503  SRR776505  SRR776506
 下载完成后，会在你的工作主目录下生成一个ncbi的文件夹。
 
 
-Sra子文件夹中的.sra文件就是对应的runs文件。
+sra子文件夹中的.sra文件就是对应的runs文件。
 ‘.sra’的后缀是SRA数据库对fastq文件的特殊压缩。使用前，我们需要将其解压为fastq文件。SRA Toolkit 包含了解压函数fastq-dump :``$fastq-dump SRR776503.sra``
 
 
 通过命令行来下载
-```
+```Shell
 for ((i=204;i<=209;i++)) ;
 do 
 wget ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP017/SRP017311/SRR620$i/SRR620$i.sra;
@@ -349,14 +364,17 @@ https://www.ncbi.nlm.nih.gov/sra/docs/
 
 **一、最新版本**
 
-人的dbsnp目前已更新到150版本
-150版本基本信息
+人的dbsnp目前已更新到151版本
+151版本基本信息
 
-|Organism| dbSNP Build| Genome Build| Number of  Submissions(ss#'s)|Number of RefSNP Clusters (rs#'s) ( # validated)|Number of (rs#'s) in gene|Number of (ss#'s) with genotype|Number of (ss#'s) with frequency
-|-------|-------|-------|-------|-------|-------|-------|-------|
-|Homo sapiens|	150|38.3|907,234,193|325,660,549 (107,926,145)|	191,665,918|73,917,935|130,169,906|
+**Last Updated**: Build 150 (Feb 3, 2017)
+**RefSNP Count**: 325.7 Million
+**SubSNP Count**: 907.2 Million
+**Assembly**: [GRCh37.p13](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.25), [GRCh38.p7](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.33)
+**Data**: [Search](https://www.ncbi.nlm.nih.gov/snp/?term=%22Homo+sapiens%22[org]), [FTP](ftp://ftp.ncbi.nih.gov/snp/organisms/human_9606)
+**Genome Data Viewer**: [GRCh37.p13](https://www.ncbi.nlm.nih.gov/genome/gdv/?acc=GCF_000001405.25&context=genome), [GRCh38.p7](https://www.ncbi.nlm.nih.gov/genome/gdv/?acc=GCF_000001405.33&context=genome)
 
-下载地址：ftp://ftp.ncbi.nlm.nih.gov/snp/
+vcf格式的dbsnp数据库下载地址：ftp://ftp.ncbi.nlm.nih.gov/snp/ 
 
 **二、目录结构**
 
@@ -422,7 +440,7 @@ dbSNP包含了许多目录，其中最有用的是：
     * x, a single number, indicates a feature at base position x
     * x..y, denotes a feature that spans from x to y inclusive.
     * x^y, denotes a feature that is inserted between bases x and y
-    
+
 11. Genes at this same position on the chromosome    匹配到的基因名字
 
 12. Genotypes available in dbSNP for this RefSNP   基因型是否可知
@@ -445,7 +463,7 @@ Optional Fields:
 4. name:  The dbSNP Reference SNP (rs) ID
 
 5. score:  dbSNP does not assign a score value, so this field will always
-contain a 0 .    
+  contain a 0 .    
 
 6. strand:  This field defines strand orientation as either + or -.
 
@@ -513,9 +531,9 @@ NCBI RefSeq (Reference Sequence，美国国立生物技术信息中心参考序�
 * 为基因组注释，基因鉴定和特性描述，突变和多态性分析，表达研究和比较分析提供稳定可靠的参考
 * 由NCBI和其合作者维护
 
-|Proteins|Transcripts|Organisms|
-|------|------|------|
-|88,385,530 |19,634,664|71,356|
+| Proteins   | Transcripts | Organisms |
+| ---------- | ----------- | --------- |
+| 88,385,530 | 19,634,664  | 71,356    |
 -- 最新数据截止2017年7月21日
 
 由于一些序列来自异常连接产生的转录物或由计算机推演产生的不正确内含子-外显子剪切，因此该数据库所收集的参考序列一直在不断地被修改中，尽管如此，NCBI RefSeq  仍是目前最可信赖的人类基因mRNA序列数据库。
@@ -528,7 +546,7 @@ RefSeq一般的命名格式:前缀为两个字母，然后下横线（'_'）。�
 	Known RefSeq: NM_ (mRNA), NR_ (non-coding RNA), or NP_ (protein)  代表被人工检验过
 
 1. 在Comment区域显示来源,说明数据可靠性。（GENOME ANNOTATION，INFERRED，MODEL，
-PREDICTED，PROVISIONAL，WGS REVIEWED，VALIDATED）
+  PREDICTED，PROVISIONAL，WGS REVIEWED，VALIDATED）
 2. 蛋白序列在DBSOURCE区域标示 ‘REFSEQ’
 
 **blast结果中序列名的含义**
@@ -590,7 +608,7 @@ ENTREZ GENOMES DIVISION   https://www.ncbi.nlm.nih.gov/genome
 
 其它物种： ftp://ftp.ncbi.nlm.nih.gov/refseq/release/
 
-**三、讨论**
+**三、Q&A**
 
 1. RefSeq和genbank的数据有什么区别？
 
@@ -600,23 +618,6 @@ genbank是一个开放的数据库，对每个基因都含有许多序列。很�
 2. 为什么RefSeq记录中的基因符号（symbol）有时和相关的GenBank中的不一样？
 
 RefSeq全部使用官方基因符号。而GenBank是一个公共的序列备份库，由数据发现者提供。有的作者会向相关的物种命名委员会取得官方基因符号，但有的作者没有，所以有时会产生别名。GenBank与Pubmed相同，通过display可以选择显示格式，常用的有GenBank和FASTA两种格式。如果要对基因序列作进一步分析，FASTA格式是很好的选择。FASTA格式仅包括该序列的简要特征，并以ATGC4种碱基列出核苷酸序列，简单明了。而GenBank格式可显示较完整的基因序列记录，反映核苷酸序列的详细信息
-
-
-**参考资料**
-
-http://www.ncbi.nlm.nih.gov/refseq/
-
-http://liucheng.name/379/
-
-http://yangl.net/2015/10/08/ncbi_refseq/
-
-http://yangl.net/2015/10/08/ncbi-refseq-name-format/
-
-http://www.biotrainee.com/thread-213-1-1.html
-
-https://www.ncbi.nlm.nih.gov/books/NBK21091/
-
-ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/presentations/RefSeqGene.pptx
 
 #### Entrez
 
@@ -661,17 +662,17 @@ Entrez (http://www.ncbi.nlm.nih.gov/Entrez) 是美国国家生物技术信息中
     
     先执行括号里面的逻辑
     g1p3 AND (response element OR promoter)
-
+    
     horse[Organism]
     neoplasms[MeSH Terms]
     prolactin[Protein Name]
     srcdb_refseq[Properties]
     2010/06[Publication Date]
-    
-    
+
+
     110:500[Sequence Length]
     2015/3/1:2016/4/30[Publication Date]
-
+    
     PubMed: ("horses"[MeSH Terms] OR "horses"[All Fields] OR "horse"
     [All Fields] OR "equidae"[MeSH Terms] OR "equidae"[All Fields]) 
     AND ("receptors, dopamine d2"[MeSH Terms] OR ("receptors"[All Fields]
@@ -726,7 +727,7 @@ b. 直接输入网址
     www.ncbi.nlm.nih.gov/pubmed/9705509,19745054?report=abstract&format=text
 
 * 在nucleotide中搜索APOE基因，限制一页呈现200个结果
-    
+
     www.ncbi.nlm.nih.gov/nucleotide/?term=APOE[gene]&dispmax=200
 
 * 在PubMed中搜索Lipman DJ和PMID的格式呈现
@@ -797,7 +798,7 @@ Ensembl计划开始于1999年，人类基因组草图计划完成前的几年。
 * 通过BioMart导出序列和基因信息
 * Variant Effect Predictor
 
-**三、下载**
+**三、数据下载**
 
 1. 少量的数据
 
@@ -858,8 +859,8 @@ http://www.ensembl.org/info/index.html
 站点地址：
 
 *	http://genome.ucsc.edu/
-*	Europe: http://genome-euro.ucsc.edu
-*	Asia: http://genome-asia.ucsc.edu
+  *Europe: http://genome-euro.ucsc.edu
+  *Asia: http://genome-asia.ucsc.edu
 
 数据库特点：
 
@@ -869,7 +870,7 @@ http://www.ensembl.org/info/index.html
 
 **二、UCSC可以干什么**
 
-UCSC建立的初衷是为了更好的呈现基因组数据，方便人们查看与研究。因此在呈现基因组碱基序列的同时，也结合了注释信息，例如known genes, predicted genes, ESTs, mRNAs, CpG islands, assembly gaps and coverage, chromosomal bands, mouse homologies等等。所以用户既可以用他们提供的数据库里面的数据，也可以上传自己的数据来做研究。围绕着这样的初衷，他们设计
+UCSC建立的初衷是为了更好的呈现基因组数据，方便人们查看与研究。因此在呈现基因组碱基序列的同时，也结合了注释信息，例如known genes, predicted genes, ESTs, mRNAs, CpG islands, assembly gaps and coverage, chromosomal bands, mouse homologies等等。所以用户既可以用他们提供的数据库里面的数据，也可以上传自己的数据来做研究。围绕着这样的初衷，他们设计如下功能：
 
 ```
 Genome Browser  整合基因组数据和各种注释数据的在线查看系统
@@ -908,9 +909,9 @@ http://genome.ucsc.edu/cgi-bin/das/hg38/dna?segment=chr17:7676091,7676196
 
 hg38可以更换成hg19，dna?segment= 后面可以按照标准格式更换，既可以返回我们想要的序列了。
 
-2.下载数据
+2.数据下载
 
-首先是NCBI对应UCSC，对应ENSEMBL数据库：
+首先是NCBI对应UCSC，对应ENSEMBL数据库，下面各版本对应格式   NCBI (UCSC) : ENSEMBL：
 GRCh36 (hg18): ENSEMBL release_52.
 GRCh37 (hg19): ENSEMBL release_59/61/64/68/69/75.
 GRCh38 (hg38): ENSEMBL  release_76/77/78/80/81/82.
@@ -951,12 +952,12 @@ UCSC里面下载非常方便，只需要根据基因组简称来拼接url即可�
 * 针对DNA序列，BLAT是用来设计寻找95%及以上相似 至少40个碱基的序列。
 * 针对蛋白序列，BLAT是用来设计寻找80%及以上相似 至少20个氨基酸的序列。
 * 用法:
-	- 查找mRNA或蛋白在基因组中的位置 
-	- 决定基因外显子的结构
-	- 显示全长基因的编码区域 
-	- 分离一个物种他自己的EST
-	- 查找基因家族
-	- 从其他物种中查找人类基因的同源物
+  - 查找mRNA或蛋白在基因组中的位置 
+  - 决定基因外显子的结构
+  - 显示全长基因的编码区域 
+  - 分离一个物种他自己的EST
+  - 查找基因家族
+  - 从其他物种中查找人类基因的同源物
 
 更多参考：https://genome.ucsc.edu/goldenpath/help/hgTracksHelp.html
 
@@ -1044,7 +1045,7 @@ NHGRI（ National Human Genome Research Institute)于2003年9月启动了ENCODE�
 
 通过比较小鼠注释的数据和人的基因注释结果可以提高注释结果的准确性。注释工作包括人工矫正，不同方法的计算分析和设计实验证明。有争议的位置会通过实验来验证。数据资源可以Ensembl和UCSC等上公开。
 
-Version 26 (October 2016 freeze, GRCh38) - Ensembl90版本的统计数据
+**Version 26 (October 2016 freeze, GRCh38) - Ensembl90**版本的统计数据
 
 * Total No of Genes：58288
 * Protein-coding genes：  19836
@@ -1068,7 +1069,7 @@ Version 26 (October 2016 freeze, GRCh38) - Ensembl90版本的统计数据
 * Total No of distinct translations：   60172
 * Genes that have more than one distinct translations： 13546
 
-**二、数据的下载**
+**二、数据下载**
 
 FTP地址：ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/
 
@@ -1128,10 +1129,10 @@ http://www.biotrainee.com/thread-472-1-1.html
 
     获得基因名列表
     ``awk '{if($3=="gene"){print $0}}' gencode.gtf``
-
+    
     获得所有的"protein-coding transcript"行
     ``awk '{if($3=="transcript" && $20=="\"protein_coding\";"){print $0}}' gencode.gtf``
-
+    
     获得手动注释级别为1或2的注释结果
     ``awk '{if($0~"level (1|2);"){print $0}}' gencode.gtf``
 
@@ -1162,10 +1163,10 @@ The GENCODE v7 catalog of human long noncoding RNAs, 链接 http://genome.cshlp.
 * Affymetrix Genome-Wide Human SNP Array
 * Agilent 8 x 15K Human miRNA-specific microarray
 * Illumina Genome Analyzer DNA Sequencing
-等等
+  等等
 
 更多阅读：https://cancergenome.nih.gov/abouttcga/aboutdata/platformdesign
-     
+​     
 **TCGA数据类型 **
 
 数据类型包括：Clinical Data，Images，Microsatellite Instability (MSI),DNA Sequencing,miRNA Sequencing,
@@ -1378,11 +1379,11 @@ https://cancergenome.nih.gov/abouttcga/overview
 
 项目完成的三个阶段
 
-| 阶段             | 目标                                       | 深度     | 策略              | 状态         | 
-| -------------- | --------------------|-------------------- | ------ | --------------- |
-| 1-low coverage | Assess strategy of sharing data across samples | 2-4X   | 180个样本全基因组测序    | 2008年9月完成  | 
-| 2-trios        | Assess coverage and platforms and centres | 20-60X | 2个母亲-父亲-孩子的家系测序 | 2008年10月完成 |    
-| 3-gene regions | Assess methods for gene-region-capture   | 50X    | 900个样本1000个基因   | 2009年6月完成  |      
+| 阶段             | 目标                                       | 深度     | 策略              | 状态         |
+| -------------- | ---------------------------------------- | ------ | --------------- | ---------- |
+| 1-low coverage | Assess strategy of sharing data across samples | 2-4X   | 180个样本全基因组测序    | 2008年9月完成  |
+| 2-trios        | Assess coverage and platforms and centres | 20-60X | 2个母亲-父亲-孩子的家系测序 | 2008年10月完成 |
+| 3-gene regions | Assess methods for gene-region-capture   | 50X    | 900个样本1000个基因   | 2009年6月完成  |
 
 
 
@@ -1414,7 +1415,7 @@ http://browser.1000genomes.org/Homo_sapiens/Variation/Population?r=1:24201420-24
 	ftp://ftp.sanger.ac.uk/pub/1000genomes/
 	ftp://ftp.ebi.ac.uk/pub/databases/1000genomes/
 	ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp
- 
+
 
 直接看最新版的数据，共有NA编号开头的1182个人，HG开头的1768个人！
 ftp://ftp.ncbi.nlm.nih.gov/1000genomes/ftp/phase3/data/
@@ -1441,7 +1442,7 @@ ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/
 
 **表达相关的数据 **
 
-1000G项目中比较重要的表达数据：
+1000G项目中**比较重要的表达数据**：
 
 1. 465个个体（包括种群：CEU, TSI, GBR, FIN, YRI)的RNAseq数据（mRNA和miRNA）
 
@@ -1465,9 +1466,9 @@ http://www.ebi.ac.uk/arrayexpress/experiments/E-MTAB-264
 
 http://www.ebi.ac.uk/arrayexpress/experiments/E-GEOD-19480
 
-**三、讨论**
+**三、Q&A**
 
-1. 1000G中的突变也在dbSNP中吗？
+**1000G中的突变也在dbSNP中吗？**
 
 1000G中的SNP和插入缺失突变都提交到了dbSNP中，更长的结构突变被提交到了DGVa。
 1000G的vcf文件中有一个ID列，对应的就是dbSNP的rs ID。
@@ -1482,4 +1483,6 @@ http://www.internationalgenome.org/about
 http://www.internationalgenome.org/category/dbsnp
 
 
+
+本章节作者：[SAM'S NOTE](http://hugo.qinqianshan.com/)
 
