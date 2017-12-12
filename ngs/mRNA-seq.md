@@ -110,7 +110,7 @@ gunzip Arabidopsis_thaliana.TAIR10.28.dna.genome.fa.gz
 ~/biosoft/featureCounts/subread-1.5.3-Linux-x86_64/bin/subread-buildindex -o athal_index   Arabidopsis_thaliana.TAIR10.28.dna.genome.fa 
 ```
 
-消耗时间也不到一分钟，生成的索引文件如下：
+###### 消耗时间也不到一分钟，生成的索引文件如下：
 
 ```
 117M Oct 17 11:21 Arabidopsis_thaliana.TAIR10.28.dna.genome.fa

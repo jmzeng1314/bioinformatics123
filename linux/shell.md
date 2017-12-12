@@ -25,6 +25,7 @@ echo The number of reads is $total_reads
 bedtools multicov -bams  $bam -bed $bed |perl -alne '{$len=$F[2]-$F[1];if($len <1 ){print "$.\t$F[4]\t0" }else{$rpkm=(1000000000*$F[4]/($len* $ENV{total_reads}));print "$.\t$F[4]\t$rpkm"}}' >$sample.rpkm.txt
 done
 ```
+这个脚本看起来不复杂，但是里面应用到了接下来要讲解的所有知识点。
 
 ## 使用多个命令
 
@@ -191,10 +192,10 @@ wsx@wsx-ubuntu:~/script_learn$ cat test3
 # testing variables
 days=10
 guest="Katie"
-echo "`$guest checked in $`days days ago"
+echo "$guest checked in $days days ago"
 days=5
 guest="Jessica"
-echo "`$guest checked in $`days days ago"
+echo "$guest checked in $days days ago"
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test3
 wsx@wsx-ubuntu:~/script_learn$ ./test3
 Katie checked in 10 days ago
@@ -314,14 +315,14 @@ wsx@wsx-ubuntu:~/script_learn$ cat test1 | head -2 | sort
 ```
 start=$(date +%s.%N)
 echo VarScan `date`
-normal_pileup="samtools mpileup -q 1 -f `$reference $`normal_bam";
-tumor_pileup="samtools mpileup -q 1 -f `$reference $`tumor_bam";
+normal_pileup="samtools mpileup -q 1 -f $reference $normal_bam";
+tumor_pileup="samtools mpileup -q 1 -f $reference $tumor_bam";
 # Next, issue a system call that pipes input from these commands into VarScan :
 java -Djava.io.tmpdir=$TMPDIR   -Xmx40g  -jar ~/biosoft/VarScan/VarScan.v2.3.9.jar \
-somatic <(`$normal_pileup) <($`tumor_pileup) ${sample}_varscan
+somatic <($normal_pileup) <($tumor_pileup) ${sample}_varscan
 java -jar ~/biosoft/VarScan/VarScan.v2.3.9.jar processSomatic ${sample}_varscan.snp
 echo VarScan `date`
-dur=`$(echo "$`(date +%s.%N) - $start" | bc)
+dur=$(echo "$(date +%s.%N) - $start" | bc)
 printf "Execution time for VarScan : %.6f seconds" $dur
 echo
 ```
@@ -349,11 +350,11 @@ exrpr：未找到命令
 bash shell提供了一种更简单的方法来执行数学表达式。在bash中，在将一个数学运算结果赋给某个变量时，可以用美元符和方括号（$[operator]）将数学表达式围起来。
 
 ```shell
-wsx@wsx-ubuntu:~/script_learn`$ var1=$`[1+5]
-wsx@wsx-ubuntu:~/script_learn`$ echo $`var1
+wsx@wsx-ubuntu:~/script_learn$ var1=$[1+5]
+wsx@wsx-ubuntu:~/script_learn$ echo $var1
 6
-wsx@wsx-ubuntu:~/script_learn`$ var2=$`[$var1+2]
-wsx@wsx-ubuntu:~/script_learn`$ echo $`var2
+wsx@wsx-ubuntu:~/script_learn$ var2=$[$var1+2]
+wsx@wsx-ubuntu:~/script_learn$ echo $var2
 8
 ```
 
@@ -436,8 +437,8 @@ var4=71
 
 var5=$(bc <<EOF
 scale=4
-a1 = ( `$var1 * $`var2)
-b1 = ( `$var3 * $`var4)
+a1 = ( $var1 * $var2)
+b1 = ( $var3 * $var4)
 a1 + b1
 EOF
 )
@@ -454,12 +455,12 @@ The final answer for this mess is 2813.9882
 
 前面运行的脚本都是命令执行完成，脚本自动结束。其实我们可以用更为优雅的方式告诉shell命令运行完成，因为每个命令都使用**退出状态码（exit status）**，它是一个0-255的整数值，我们可以捕获这个值并在脚本中使用。
 
-Linux提供了一个专门的变量`$?`来保存上个已执行命令的退出状态码。
+Linux提供了一个专门的变量$?`来保存上个已执行命令的退出状态码。
 
 ```shell
 wsx@wsx-ubuntu:~/script_learn$ date
 2017年 07月 27日 星期四 10:44:18 CST
-wsx@wsx-ubuntu:~/script_learn`$ echo $`?
+wsx@wsx-ubuntu:~/script_learn$ echo $?
 0
 ```
 
@@ -484,7 +485,7 @@ wsx@wsx-ubuntu:~/script_learn$ asfg
 未找到 'asfg' 命令，您要输入的是否是：
  命令 'asdfg' 来自于包 'aoeui' (universe)
 asfg：未找到命令
-wsx@wsx-ubuntu:~/script_learn`$ echo $`?
+wsx@wsx-ubuntu:~/script_learn$ echo $?
 127
 ```
 
@@ -500,14 +501,14 @@ wsx@wsx-ubuntu:~/script_learn$ cat test13
 # testing the exit status
 var1=10
 var2=30
-var3=`$[$`var1 + $var2]
+var3=$[$var1 + $var2]
 echo The answer is $var3
 exit 5
-
+## 上面就是脚本的内容，用cat可以查看文本文件，下面就添加可执行权限并且执行该脚本
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test13
 wsx@wsx-ubuntu:~/script_learn$ ./test13
 The answer is 40
-wsx@wsx-ubuntu:~/script_learn`$ echo $`?
+wsx@wsx-ubuntu:~/script_learn$ echo $?
 5
 ```
 
@@ -516,12 +517,15 @@ wsx@wsx-ubuntu:~/script_learn`$ echo $`?
 
 ## 脚本高级知识
 
-还有一些脚本高级知识，不予讲解，感兴趣的同学可以自行购买相关书籍和较小视频自学：
+还有一些脚本高级知识，不予讲解，感兴趣的同学可以自行购买相关书籍和专业视频自学：
+
 - 处理信号
 - 以后台模式运行脚本
 - 禁止挂起
 - 作业控制
 - 修改脚本优先级
 - 脚本执行自动化
+
+这里强烈推荐马哥linux视频，在生信技能树的公众号后台回复 `马哥` 可以拿到系列视频~
 
 本章节作者：：**DivinerSX**

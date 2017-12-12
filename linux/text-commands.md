@@ -10,16 +10,25 @@
 `less`用来查阅文档，`q`退出，`space bar`翻页，`g`第一行，`G`最后一行，`j`下，`k`上,`/<pattern>`往下搜索模式，`?<pattern>`往上搜索模式，`n`前一个匹配字符，`N`后一个匹配字符。
 
 `less`可以用于debug，查看中间输出结果。比如
+
 ```shell
 step1 input.txt | step2 | step3 > output.txt
 # step1,2,3为程序或命令名
 ```
+
 可以写为
+
 ```shell
 step1 input.txt | less
 step1 input.txt | step2 | less
 step1 input.txt | step2 | step3 | less
 ```
+
+这样就可以一步步的查看中间结果啦~
+
+用man可以查看less的详细手册，而且 在此生信技能树的公众号后台回复 `马哥` 可以拿到详细的视频讲解，这里就不多说了，注意两个参数即可，分别是  `-S` 和 `-N` ，赶快试一下吧。 
+
+同理还有`more` 命令， `cat`  命令也可以查看文本。
 
 ## 纯文本信息汇总
 
@@ -67,7 +76,7 @@ wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v "^#" Homo_sapiens.GRCh
 ```
 推荐使用这种。
 
-## cut
+## cut 详解
 
 
 `cut`可以处理列数据，`-f`选项指定列，可以是一个范围（比如2-8），注意不能用它给列排序。
@@ -117,7 +126,7 @@ transcript 11874 14409
 
 先把之前的tab分隔文件弄成逗号分隔文件，然后使用`-s`选项看看：
 ```shell
-wsx@wsx-ubuntu:~/Work/research/Promoter_Research`$ grep -v "^#" Homo_sapiens.GRCh37.75.gtf | head -n 10 | cut -f 3-5 | awk '{FS="\t";OFS=",";}{print $`1,`$2,$`3}'
+wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v "^#" Homo_sapiens.GRCh37.75.gtf | head -n 10 | cut -f 3-5 | awk '{FS="\t";OFS=",";}{print $1,$2,$3}'
 gene,11869,14412
 transcript,11869,14409
 exon,11869,12227
@@ -129,7 +138,7 @@ exon,12613,12721
 exon,13225,14412
 transcript,11874,14409
 
-wsx@wsx-ubuntu:~/Work/research/Promoter_Research`$ grep -v "^#" Homo_sapiens.GRCh37.75.gtf | head -n 10 | cut -f 3-5 | awk '{FS="\t";OFS=",";}{print $`1,`$2,$`3}'| column -s "," -t
+wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v "^#" Homo_sapiens.GRCh37.75.gtf | head -n 10 | cut -f 3-5 | awk '{FS="\t";OFS=",";}{print $1,$2,$3}'| column -s "," -t
 gene 11869 14412
 transcript 11869 14409
 exon 11869 12227
@@ -142,7 +151,7 @@ exon 13225 14412
 transcript 11874 14409
 ```
 
-## grep
+## grep 简单了解
 
 `grep`处理速度非常之快，能用它尽量用它。`--color=auto`可以激活颜色（标记匹配文字），更方便查看。
 
@@ -226,10 +235,10 @@ chr3	32	47
 ```shell
 wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed | sort -k1,1 -k2,2 -c
 sort：-:2：无序： chr1	10	19
-wsx@wsx-ubuntu:~`$ echo $`?
+wsx@wsx-ubuntu:~$ echo $?
 1
 wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed | sort -k1,1 -k2,2n -c
-wsx@wsx-ubuntu:~`$ echo $`?
+wsx@wsx-ubuntu:~$ echo $?
 0
 
 ```
@@ -237,11 +246,11 @@ wsx@wsx-ubuntu:~`$ echo $`?
 ```shell
 wsx@wsx-ubuntu:~$ tsfds
 tsfds：未找到命令
-wsx@wsx-ubuntu:~`$ echo $`?
+wsx@wsx-ubuntu:~$ echo $?
 127
 wsx@wsx-ubuntu:~$ echo test
 test
-wsx@wsx-ubuntu:~`$ echo $`?
+wsx@wsx-ubuntu:~$ echo $?
 0
 ```
 shell的命令退出状态码表示了该命令执行的完成的某种情况。不同的状态码有不同的含义，具体可以百度查阅（我之前整理的shell笔记应该讲过，可以看看）。
@@ -450,7 +459,7 @@ chr3 11 28
 chr3 16 27
 ```
 
-## awk
+## awk 可以说是一门语言了
 
 `awk`是文本处理的一把好手，虽然它不能像`python`，`R`干一些高级复杂的主题工作，但是它具备完整的命令操作和编程体系。
 
@@ -464,9 +473,9 @@ pattern {action}
 ```
 pattern可以是表达式或者正则表达式。pattern有点像`if`语句，当它满足时就会执行相应的动作。
 
-另一个`awk`核心是它用`$0`表示所有列，`$1`，`$2`...等等表示对应的列。我们可以很方便地用它进行操作。
+另一个`awk`核心是它用$0`表示所有列，$1`，$2`...等等表示对应的列。我们可以很方便地用它进行操作。
 ```shell
-wsx@wsx-ubuntu:/tmp`$ awk '{print $`0}' example.bed
+wsx@wsx-ubuntu:/tmp$ awk '{print $0}' example.bed
 chr1	26	39
 chr1	32	47
 chr3	11	28
@@ -474,7 +483,7 @@ chr1	40	49
 chr3	16	27
 chr1	9	28
 chr2	35	53
-wsx@wsx-ubuntu:/tmp`$ awk '{print $`1}' example.bed
+wsx@wsx-ubuntu:/tmp$ awk '{print $1}' example.bed
 chr1
 chr1
 chr3
@@ -482,7 +491,7 @@ chr1
 chr3
 chr1
 chr2
-wsx@wsx-ubuntu:/tmp`$ awk '{print $`2}' example.bed
+wsx@wsx-ubuntu:/tmp$ awk '{print $2}' example.bed
 26
 32
 11
@@ -493,7 +502,7 @@ wsx@wsx-ubuntu:/tmp`$ awk '{print $`2}' example.bed
 
 `print`语句就像动作一样输出你操作的结果。
 ```shell
-wsx@wsx-ubuntu:/tmp`$ awk '{ print $`2 "\t" $3}' example.bed
+wsx@wsx-ubuntu:/tmp$ awk '{ print $2 "\t" $3}' example.bed
 26	39
 32	47
 11	28
@@ -501,7 +510,7 @@ wsx@wsx-ubuntu:/tmp`$ awk '{ print $`2 "\t" $3}' example.bed
 16	27
 9	28
 35	53
-wsx@wsx-ubuntu:/tmp`$ awk '{ print $`2 $3}' example.bed
+wsx@wsx-ubuntu:/tmp$ awk '{ print $2 $3}' example.bed
 2639
 3247
 1128
@@ -509,7 +518,7 @@ wsx@wsx-ubuntu:/tmp`$ awk '{ print $`2 $3}' example.bed
 1627
 928
 3553
-wsx@wsx-ubuntu:/tmp`$ awk '{ print $`2 , $3}' example.bed
+wsx@wsx-ubuntu:/tmp$ awk '{ print $2 , $3}' example.bed
 26 39
 32 47
 11 28
@@ -525,7 +534,7 @@ wsx@wsx-ubuntu:/tmp`$ awk '{ print $`2 , $3}' example.bed
 
 下面我先把例子文件的`chr`去掉，然后加上试试。
 ```shell
-wsx@wsx-ubuntu:/tmp`$ awk '{ print $`1}' example.bed
+wsx@wsx-ubuntu:/tmp$ awk '{ print $1}' example.bed
 chr1
 chr1
 chr3
@@ -533,7 +542,7 @@ chr1
 chr3
 chr1
 chr2
-wsx@wsx-ubuntu:/tmp`$ awk '{ print $`1}' example.bed | cut -c4
+wsx@wsx-ubuntu:/tmp$ awk '{ print $1}' example.bed | cut -c4
 1
 1
 3
@@ -541,7 +550,7 @@ wsx@wsx-ubuntu:/tmp`$ awk '{ print $`1}' example.bed | cut -c4
 3
 1
 2
-wsx@wsx-ubuntu:/tmp`$ awk '{ print $`1}' example.bed | cut -c4 | awk '{print "chr"$1}'
+wsx@wsx-ubuntu:/tmp$ awk '{ print $1}' example.bed | cut -c4 | awk '{print "chr"$1}'
 chr1
 chr1
 chr3
@@ -553,9 +562,9 @@ chr2
 
 `awk`作为一门编程语言，它支持各种操作符（运算，逻辑，判断）喔。
 ```shell
-wsx@wsx-ubuntu:/tmp`$ awk '$`3 - $2 >18' example.bed
+wsx@wsx-ubuntu:/tmp$ awk '$3 - $2 >18' example.bed
 chr1	9	28
-wsx@wsx-ubuntu:/tmp`$ awk '$`1 ~/chr1/ && `$3 - $`2 > 10' example.bed
+wsx@wsx-ubuntu:/tmp$ awk '$1 ~/chr1/ && $3 - $2 > 10' example.bed
 chr1	26	39
 chr1	32	47
 chr1	9	28
@@ -572,7 +581,7 @@ chr3	16	27
 
 如果我们想把`gtf`文件转换成为`bed`格式，可以使用
 ```shell
-wsx@wsx-ubuntu:~/Work/research/Promoter_Research`$ head -n1000 Homo_sapiens.GRCh37.75.gtf | awk '!/^#/{ print $`1 "\t" `$4-1 "\t" $`5} ' | head -n 3
+wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ head -n1000 Homo_sapiens.GRCh37.75.gtf | awk '!/^#/{ print $1 "\t" $4-1 "\t" $5} ' | head -n 3
 1	11868	14412
 1	11868	14409
 1	11868	12227
@@ -583,7 +592,7 @@ wsx@wsx-ubuntu:~/Work/research/Promoter_Research`$ head -n1000 Homo_sapiens.GRCh
 
 ## 用sed进行流编辑
 
-sed工作流：读取`$\to$`执行命令`$\to$`显示。默认情况，所有的命令都会一个叫做在模式空间（pattern buffer）的缓冲区进行。因此不会改变原始输入文件的内容。
+sed工作流：读取$\to$执行命令$\to$显示。默认情况，所有的命令都会一个叫做在模式空间（pattern buffer）的缓冲区进行。因此不会改变原始输入文件的内容。
 
 
 ### 语法规则
@@ -788,76 +797,48 @@ $ 行尾
 sed 's/[[:digit:]]/number = &/ test.txt
 ```
 
-### sed 单行命令
+### sed 单行命令 可以完全替代上面所有的命令。
 
 ```bash
 # 删除空行
 sed '/^$/d'
-
 #每行后增加空行
 sed G
-
 # 在每5行后增加一空白行
 gsed '0~5G'
-
-
 # 在匹配式样“regex”的行之后插入一空行
 sed '/regex/G'
-
 # 在匹配式样“regex”的行之前和之后各插入一空行
 sed '/regex/{x;p;x;G;}'
-
 # 过滤所有的html标签
 sed 's/<[^>]*>//g ; /^$/d' html.txt
-
-# cat
-
+# 代替 cat 功能 
 sed ''
-
-# head
-
+# 代替 head 功能 
 sed '10 q'
-
 # Dos2unix
-
 sed 's/^M$//'
-
 # Unix2dos
-
 sed 's/$/\r/'
-
 # nl(添加行号)
 # sed行号会独占一行
 sed = input.file | sed 'N;s/\n/\t/'
 
 # tee
-
 sed ‐n 'p; w new.txt'
-
-# grep
-
+# 代替 grep 功能 
 sed ‐n '/pattern/p'
-
 # grep -v
-
 sed ‐n '/pattern/p!'
-
 # 计算行数
-
 sed -n '$='
-
 # 多个内容同时替换
-
 sed 's/a\|b\|c/d/' tmp.txt
-
 # 将每两行连接成一行
-
 sed '$!N;s/\n/ /'
-
 # 如果当前行以等号开头，将当前行并到上一行末尾
 # 并以单个空格代替原来行头的“=”
 sed -e :a -e '$!N;s/\n=/ /;ta' -e 'P;D'
-
 # 显示包含“AAA”、“BBB”或“CCC”的行（任意次序）
 sed '/AAA/!d; /BBB/!d; /CCC/!d'
 

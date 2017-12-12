@@ -1,4 +1,4 @@
-# 环境变量 {#env}
+# 环境变量
 
 Linux是一个多用户的操作系统。每个用户登录系统后，都会有一个专用的运行环境。
 通常每个用户默认的环境都是相同的，这个默认环境实际上就是**一组环境变量**的定义。
@@ -6,8 +6,8 @@ Linux是一个多用户的操作系统。每个用户登录系统后，都会有
 用户可以对自己的运行环境进行定制，其方法就是修改相应的系统环境变量。
 
 环境变量有很多，**需要重点理解的就是PATH**，很多时候大家看到教程某些软件的使用，比如 
-```
 
+```
 mkdir -p  ~/tmp/chrX_Y/hg19/
 cd  ~/tmp/chrX_Y/hg19/
 #conda install -c bioconda bwa
@@ -26,9 +26,10 @@ samtools view -h -F4  -q 5 read.sorted.bam |samtools view -bS |samtools rmdup - 
 samtools index read.filter.rmdup.bam
 samtools mpileup -ugf ~/tmp/chrX_Y/hg19/chrX.fa  read.filter.rmdup.bam  |bcftools call -vmO z -o read.bcftools.vcf.gz
 
- 
 ```
-bwa软件就没有添加到环境变量，所以需要用全路径，指明使用电脑里面什么地方的bwa软件来做数据分析。而为什么没有添加到环境变量，是因为我的安装方式的问题：
+bwa软件就没有添加到环境变量，所以需要用全路径，指明使用电脑里面什么地方的bwa软件来做数据分析。
+而samtools我已经添加到环境变量了，所以可以直接调用。 
+而为什么没有把bwa添加到环境变量，是因为我的安装方式的问题，我的安装代码如下：
 ```
 ## Download and install BWA
 cd ~/biosoft
@@ -44,6 +45,10 @@ make
 # /path/to/ is an placeholder. Replace with real path to BWA on your machine
 #source ~/.bashrc
 ```
+
+可以看到我的bwa安装在 `~/biosoft/bwa/bwa-0.7.15/` 目录，而且我并不想把它添加到环境变量。
+假如我使用的是 `conda install -c bioconda bwa` 那么这个bwa软件就会被自动添加到环境变量，因为conda会帮我管理好所以软件。
+
 
 而把安装好的软件添加到环境变量的方法有：
    
@@ -85,5 +90,6 @@ IFS：         输入域分隔符。当shell读取输入时，用来分隔单词
 ```
 大部分并不需要背诵，我们要学会的其实是搜索技巧，碰到陌生的知识点，用于搜索。
 
+当然， 对很多不希望太纠结的朋友，选择conda就足够了。
 
 本章节作者：曾健明
